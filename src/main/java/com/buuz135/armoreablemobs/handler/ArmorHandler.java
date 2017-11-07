@@ -2,7 +2,6 @@ package com.buuz135.armoreablemobs.handler;
 
 import com.buuz135.armoreablemobs.entity.ArmorEntity;
 import crafttweaker.api.item.IItemStack;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -28,6 +27,6 @@ public class ArmorHandler {
 
     @ZenMethod
     public static ArmorSlot createArmorSlot(String slot, IItemStack itemStack, int weightToSpawn, double chanceToDrop) {
-        return new ArmorSlot(EntityEquipmentSlot.fromString(slot), itemStack, weightToSpawn, chanceToDrop);
+        return new ArmorSlot(slot, itemStack, weightToSpawn, chanceToDrop);
     }
 }

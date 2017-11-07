@@ -1,19 +1,18 @@
 package com.buuz135.armoreablemobs.handler;
 
+import com.buuz135.armoreablemobs.util.ZenWeightedRandom;
 import crafttweaker.api.item.IItemStack;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.util.WeightedRandom;
 import stanhebben.zenscript.annotations.ZenClass;
 
 @ZenClass(value = "mods.armoreablemobs.ArmorSlot")
-public class ArmorSlot extends WeightedRandom.Item {
+public class ArmorSlot extends ZenWeightedRandom.Item {
 
-    private EntityEquipmentSlot slot;
+    private String slot;
     private IItemStack stack;
     private int weight;
     private double chanceToDrop;
 
-    public ArmorSlot(EntityEquipmentSlot slot, IItemStack stack, int weight, double chanceToDrop) {
+    public ArmorSlot(String slot, IItemStack stack, int weight, double chanceToDrop) {
         super(weight);
         this.slot = slot;
         this.stack = stack;
@@ -21,7 +20,7 @@ public class ArmorSlot extends WeightedRandom.Item {
         this.chanceToDrop = chanceToDrop;
     }
 
-    public EntityEquipmentSlot getSlot() {
+    public String getSlot() {
         return slot;
     }
 

@@ -1,4 +1,6 @@
 # ArmoreableMobs
+Allows you give armor and items to an entity when it spawns.
+
 
 ## How to use:
 You need craftweaker to use the mod and use it with a script. First of all import:
@@ -19,6 +21,8 @@ The possible slots are: `["head", "chest", "legs", "feet", "feet", "mainhand", "
 
 ### ArmorEntity
 An ArmorEntity defines information that an Entity needs to have to be given in the items defined with ArmorSlots. It can be created with ``var entity = ArmorHandler.createArmorEntity("minecraft:zombie");`` where the argument is the Entity ID. You can add NBT checks to filter the entity with ``entity.withNBTCheck("Health", 10.0, "GREATER");`` with arguments ``(String nbtId, Object value, String checkingMode)``, The checking modes can be `["LESS", "EQUAL", "GREATER", "CONTAINS"]`.
+
+## Full Example
 
 ```
 import mods.armoreablemobs.ArmorHandler;

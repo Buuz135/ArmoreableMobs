@@ -3,7 +3,12 @@ package com.buuz135.armoreablemobs;
 import com.buuz135.armoreablemobs.entity.ArmorEntity;
 import com.buuz135.armoreablemobs.handler.ArmorGroup;
 import com.buuz135.armoreablemobs.handler.ArmorHandler;
+import com.buuz135.armoreablemobs.handler.ArmorSlot;
 import crafttweaker.CraftTweakerAPI;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -12,10 +17,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.stream.Collectors;
+
 @Mod(
         modid = Armoreablemobs.MOD_ID,
         name = Armoreablemobs.MOD_NAME,
-        version = Armoreablemobs.VERSION
+        version = Armoreablemobs.VERSION,
+        dependencies = "required-after:crafttweaker"
 )
 public class Armoreablemobs {
 
@@ -35,9 +43,10 @@ public class Armoreablemobs {
      */
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
+        CraftTweakerAPI.registerClass(ArmorEntity.class);//
+        CraftTweakerAPI.registerClass(ArmorSlot.class);
         CraftTweakerAPI.registerClass(ArmorGroup.class);
         CraftTweakerAPI.registerClass(ArmorHandler.class);
-        CraftTweakerAPI.registerClass(ArmorEntity.class);
     }
 
     /**
@@ -61,11 +70,16 @@ public class Armoreablemobs {
 
     @SubscribeEvent
     public void onEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
-        //System.out.println(CommandBase.entityToNBT(event.getEntity()));
-        for (ArmorGroup group : ArmorHandler.ARMOR_GROUPS) {
-            for (ArmorEntity entity : group.getEntities()) {
-                if (entity.checkEntity(event.getEntity())) {
-                    System.out.println("FOUN ENTITY");
+        if (event.getEntity() instanceof EntityLiving) {
+            for (ArmorGroup group : ArmorHandler.ARMOR_GROUPS) {
+                for (ArmorEntity entity : group.getEntities()) {
+                    if (!entity.checkEntity(event.getEntity()) || event.getWorld().rand.nextDouble() > group.getChance())
+                        continue;
+                    for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                        ArmorSlot winner = WeightedRandom.getRandomItem(event.getWorld().rand, group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot)).collect(Collectors.toList()));
+                        event.getEntity().setItemStackToSlot(slot, (ItemStack) winner.getStack().getInternal());
+                        ((EntityLiving) event.getEntity()).setDropChance(slot, (float) winner.getChanceToDrop());
+                    }
                 }
             }
         }

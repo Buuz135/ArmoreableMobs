@@ -9,7 +9,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.HashMap;
 
-@ZenClass(value = "com.armoreablemobs.ArmorEntity")
+@ZenClass(value = "mods.armoreablemobs.ArmorEntity")
 public class ArmorEntity {
 
     private String id;
@@ -18,11 +18,6 @@ public class ArmorEntity {
     public ArmorEntity(String id) {
         this.id = id;
         nbtChecks = new HashMap<>();
-    }
-
-    @ZenMethod
-    public static ArmorEntity createArmorEntity(String id) {
-        return new ArmorEntity(id);
     }
 
     @ZenMethod

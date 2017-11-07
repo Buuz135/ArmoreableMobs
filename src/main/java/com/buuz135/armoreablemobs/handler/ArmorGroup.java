@@ -7,22 +7,29 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-@ZenClass
+@ZenClass(value = "mods.armoreablemobs.ArmorGroup")
 public class ArmorGroup {
 
-    private final String name;
-    private final double chance;
-    private final List<ArmorEntity> entities;
+    private String name;
+    private double chance;
+    private List<ArmorEntity> entities;
+    private List<ArmorSlot> slots;
 
     public ArmorGroup(String name, double chance) {
         this.name = name;
         this.chance = chance;
         this.entities = new ArrayList<>();
+        this.slots = new ArrayList<>();
     }
 
     @ZenMethod
     public void addEntity(ArmorEntity entity) {
         entities.add(entity);
+    }
+
+    @ZenMethod
+    public void addArmor(ArmorSlot slot) {
+        slots.add(slot);
     }
 
     public String getName() {
@@ -35,5 +42,9 @@ public class ArmorGroup {
 
     public List<ArmorEntity> getEntities() {
         return entities;
+    }
+
+    public List<ArmorSlot> getSlots() {
+        return slots;
     }
 }

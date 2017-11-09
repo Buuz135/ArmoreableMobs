@@ -22,6 +22,9 @@ The possible slots are: `["head", "chest", "legs", "feet", "feet", "mainhand", "
 ### ArmorEntity
 An ArmorEntity defines information that an Entity needs to have to be given in the items defined with ArmorSlots. It can be created with ``var entity = ArmorHandler.createArmorEntity("minecraft:zombie");`` where the argument is the Entity ID. You can add NBT checks to filter the entity with ``entity.withNBTCheck("Health", 10.0, "GREATER");`` with arguments ``(String nbtId, Object value, String checkingMode)``, The checking modes can be `["LESS", "EQUAL", "GREATER", "CONTAINS"]`.
 
+### GameStages Support
+This mod provides GameStages to groups with `group.addGameStage("testStage");`. Nearby players need to have all the stages added to the group to be able to get used.
+
 ## Full Example
 
 ```
@@ -38,4 +41,5 @@ group.addArmor(ArmorHandler.createArmorSlot("chest", <draconicevolution:draconic
 group.addArmor(ArmorHandler.createArmorSlot("legs", <draconicevolution:draconic_legs>.withTag({Energy: 16000000}), 1, 0.5));
 group.addArmor(ArmorHandler.createArmorSlot("feet", <draconicevolution:draconic_boots>.withTag({Energy: 16000000}), 1, 0.5));
 group.addArmor(ArmorHandler.createArmorSlot("mainhand", <draconicevolution:draconic_sword>.withTag({Energy: 16000000}), 1, 0.5));
+group.addGameStage("testStage");
 ```

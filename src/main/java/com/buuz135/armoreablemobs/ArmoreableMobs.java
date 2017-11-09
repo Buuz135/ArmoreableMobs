@@ -4,13 +4,16 @@ import com.buuz135.armoreablemobs.entity.ArmorEntity;
 import com.buuz135.armoreablemobs.handler.ArmorGroup;
 import com.buuz135.armoreablemobs.handler.ArmorHandler;
 import com.buuz135.armoreablemobs.handler.ArmorSlot;
+import com.buuz135.armoreablemobs.util.GameStagesSupport;
 import com.buuz135.armoreablemobs.util.ZenWeightedRandom;
 import crafttweaker.CraftTweakerAPI;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -31,6 +34,7 @@ public class ArmoreableMobs {
     public static final String MOD_ID = "armoreablemobs";
     public static final String MOD_NAME = "ArmoreableMobs";
     public static final String VERSION = "1.0-SNAPSHOT";
+    public static final String GAMESTAGES = "gamestages";
 
     /**
      * This is the instance of your mod as created by Forge. It will never be null.
@@ -72,7 +76,7 @@ public class ArmoreableMobs {
         if (event.getEntity() instanceof EntityLiving) {
             for (ArmorGroup group : ArmorHandler.ARMOR_GROUPS) {
                 for (ArmorEntity entity : group.getEntities()) {
-                    if (!entity.checkEntity(event.getEntity()) || event.getWorld().rand.nextDouble() > group.getChance())
+                    if (!entity.checkEntity(event.getEntity()) || event.getWorld().rand.nextDouble() > group.getChance() || !isSomeoneInStage(event.getEntity(), group))
                         continue;
                     for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
                         List<ArmorSlot> armorSlots = group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot.getName())).collect(Collectors.toList());
@@ -86,4 +90,8 @@ public class ArmoreableMobs {
         }
     }
 
+    public boolean isSomeoneInStage(Entity entity, ArmorGroup group) {
+        if (!Loader.isModLoaded(GAMESTAGES) || group.getGameStages().size() == 0) return true;
+        return GameStagesSupport.checkForStages(entity, group);
+    }
 }

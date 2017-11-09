@@ -11,3 +11,4 @@ group.addArmor(ArmorHandler.createArmorSlot("chest", <draconicevolution:draconic
 group.addArmor(ArmorHandler.createArmorSlot("legs", <draconicevolution:draconic_legs>.withTag({Energy: 16000000}), 1, 0.5));
 group.addArmor(ArmorHandler.createArmorSlot("feet", <draconicevolution:draconic_boots>.withTag({Energy: 16000000}), 1, 0.5));
 group.addArmor(ArmorHandler.createArmorSlot("mainhand", <draconicevolution:draconic_sword>.withTag({Energy: 16000000}), 1, 0.5));
+group.addGameStage("testStage");

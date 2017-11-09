@@ -14,12 +14,14 @@ public class ArmorGroup {
     private double chance;
     private List<ArmorEntity> entities;
     private List<ArmorSlot> slots;
+    private List<String> gameStages;
 
     public ArmorGroup(String name, double chance) {
         this.name = name;
         this.chance = chance;
         this.entities = new ArrayList<>();
         this.slots = new ArrayList<>();
+        this.gameStages = new ArrayList<>();
     }
 
     @ZenMethod
@@ -30,6 +32,11 @@ public class ArmorGroup {
     @ZenMethod
     public void addArmor(ArmorSlot slot) {
         slots.add(slot);
+    }
+
+    @ZenMethod
+    public void addGameStage(String stage) {
+        gameStages.add(stage);
     }
 
     public String getName() {
@@ -46,5 +53,9 @@ public class ArmorGroup {
 
     public List<ArmorSlot> getSlots() {
         return slots;
+    }
+
+    public List<String> getGameStages() {
+        return gameStages;
     }
 }

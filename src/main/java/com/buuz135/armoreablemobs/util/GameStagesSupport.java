@@ -13,7 +13,8 @@ public class GameStagesSupport {
         for (EntityPlayer player : entity.getEntityWorld().playerEntities) {
             if (!PlayerUtils.isPlayerReal(player)) continue;
             PlayerDataHandler.IStageData data = PlayerDataHandler.getStageData(player);
-            return data.hasUnlockedAll(group.getGameStages()) && EntityUtils.getDistanceFromEntity(entity, player) < 256;
+            if (data.hasUnlockedAll(group.getGameStages()) && EntityUtils.getDistanceFromEntity(entity, player) < 256)
+                return true;
         }
         return false;
     }

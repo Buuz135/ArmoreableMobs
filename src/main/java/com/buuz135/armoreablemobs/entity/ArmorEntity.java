@@ -1,5 +1,6 @@
 package com.buuz135.armoreablemobs.entity;
 
+import crafttweaker.annotations.ZenRegister;
 import net.minecraft.command.CommandBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -9,6 +10,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 
 import java.util.HashMap;
 
+@ZenRegister
 @ZenClass(value = "mods.armoreablemobs.ArmorEntity")
 public class ArmorEntity {
 

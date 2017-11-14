@@ -1,6 +1,7 @@
 package com.buuz135.armoreablemobs.handler;
 
 import com.buuz135.armoreablemobs.entity.ArmorEntity;
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -8,6 +9,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+@ZenRegister
 @ZenClass(value = "mods.armoreablemobs.ArmorHandler")
 public class ArmorHandler {
 

@@ -1,9 +1,11 @@
 package com.buuz135.armoreablemobs.handler;
 
 import com.buuz135.armoreablemobs.util.ZenWeightedRandom;
+import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 
+@ZenRegister
 @ZenClass(value = "mods.armoreablemobs.ArmorSlot")
 public class ArmorSlot extends ZenWeightedRandom.Item {
 

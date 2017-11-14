@@ -1,11 +1,12 @@
 package com.buuz135.armoreablemobs.util;
 
+import crafttweaker.annotations.ZenRegister;
 import stanhebben.zenscript.annotations.ZenClass;
 
 import java.util.List;
 import java.util.Random;
 
-
+@ZenRegister
 @ZenClass
 public class ZenWeightedRandom {
 

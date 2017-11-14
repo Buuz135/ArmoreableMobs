@@ -6,7 +6,6 @@ import com.buuz135.armoreablemobs.handler.ArmorHandler;
 import com.buuz135.armoreablemobs.handler.ArmorSlot;
 import com.buuz135.armoreablemobs.util.GameStagesSupport;
 import com.buuz135.armoreablemobs.util.ZenWeightedRandom;
-import crafttweaker.CraftTweakerAPI;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -27,13 +26,13 @@ import java.util.stream.Collectors;
         modid = ArmoreableMobs.MOD_ID,
         name = ArmoreableMobs.MOD_NAME,
         version = ArmoreableMobs.VERSION,
-        dependencies = "required-after:crafttweaker"
+        dependencies = "required-after:crafttweaker@[1.12-4.0.9,)"
 )
 public class ArmoreableMobs {
 
     public static final String MOD_ID = "armoreablemobs";
     public static final String MOD_NAME = "ArmoreableMobs";
-    public static final String VERSION = "1.0-SNAPSHOT";
+    public static final String VERSION = "1.1.2";
     public static final String GAMESTAGES = "gamestages";
 
     /**
@@ -48,11 +47,11 @@ public class ArmoreableMobs {
      */
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
-        CraftTweakerAPI.registerClass(ZenWeightedRandom.Item.class);
-        CraftTweakerAPI.registerClass(ArmorEntity.class);
-        CraftTweakerAPI.registerClass(ArmorSlot.class);
-        CraftTweakerAPI.registerClass(ArmorGroup.class);
-        CraftTweakerAPI.registerClass(ArmorHandler.class);
+//        CraftTweakerAPI.registerClass(ZenWeightedRandom.Item.class);
+//        CraftTweakerAPI.registerClass(ArmorEntity.class);
+//        CraftTweakerAPI.registerClass(ArmorSlot.class);
+//        CraftTweakerAPI.registerClass(ArmorGroup.class);
+//        CraftTweakerAPI.registerClass(ArmorHandler.class);
     }
 
     /**

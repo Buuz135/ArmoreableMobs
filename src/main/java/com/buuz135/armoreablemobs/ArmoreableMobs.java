@@ -47,11 +47,7 @@ public class ArmoreableMobs {
      */
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
-//        CraftTweakerAPI.registerClass(ZenWeightedRandom.Item.class);
-//        CraftTweakerAPI.registerClass(ArmorEntity.class);
-//        CraftTweakerAPI.registerClass(ArmorSlot.class);
-//        CraftTweakerAPI.registerClass(ArmorGroup.class);
-//        CraftTweakerAPI.registerClass(ArmorHandler.class);
+
     }
 
     /**
@@ -81,7 +77,7 @@ public class ArmoreableMobs {
                         List<ArmorSlot> armorSlots = group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot.getName())).collect(Collectors.toList());
                         if (armorSlots.size() <= 0) continue;
                         ArmorSlot winner = ZenWeightedRandom.getRandomItem(event.getWorld().rand, armorSlots);
-                        event.getEntity().setItemStackToSlot(slot, ((ItemStack) winner.getStack().getInternal()).copy());
+                        event.getEntity().setItemStackToSlot(slot, winner.getStack() == null ? ItemStack.EMPTY :  ((ItemStack) winner.getStack().getInternal()).copy());
                         ((EntityLiving) event.getEntity()).setDropChance(slot, (float) winner.getChanceToDrop());
                     }
                 }

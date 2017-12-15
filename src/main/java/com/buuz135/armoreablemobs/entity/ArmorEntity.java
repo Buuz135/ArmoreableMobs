@@ -35,7 +35,7 @@ public class ArmorEntity {
     }
 
     @ZenMethod
-    public ArmorEntity witthNBTCheck(String key, String object, String mode) {
+    public ArmorEntity withNBTCheck(String key, String object, String mode) {
         nbtChecks.put(new NBTContainer(key, object), NBTCheckMode.valueOf(mode));
         return this;
     }
@@ -70,6 +70,16 @@ public class ArmorEntity {
             @Override
             public boolean checkNbt(NBTTagCompound tag, NBTContainer container) {
                 return tag.hasKey(container.key, 8) && container.value instanceof String && tag.getString(container.key).contains((String) container.value);
+            }
+        }, TAG_EXISTS{
+            @Override
+            public boolean checkNbt(NBTTagCompound tag, NBTContainer container) {
+                return tag.hasKey(container.key);
+            }
+        }, TAG_MISSING{
+            @Override
+            public boolean checkNbt(NBTTagCompound tag, NBTContainer container) {
+                return !tag.hasKey(container.key);
             }
         };
 

@@ -18,7 +18,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,24 +68,41 @@ public class ArmoreableMobs {
 
     }
 
+    public static List<LivingSpawnEvent.SpecialSpawn> events = new ArrayList<>();
+
     @SubscribeEvent
     public void onEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
-        if (event.getEntity() instanceof EntityLiving) {
-            for (ArmorGroup group : ArmorHandler.ARMOR_GROUPS) {
-                for (ArmorEntity entity : group.getEntities()) {
-                    if (!entity.checkEntity(event.getEntity()) || event.getWorld().rand.nextDouble() > group.getChance() || !isSomeoneInStage(event.getEntity(), group))
-                        continue;
-                    for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-                        List<ArmorSlot> armorSlots = group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot.getName())).collect(Collectors.toList());
-                        if (armorSlots.size() <= 0) continue;
-                        ArmorSlot winner = ZenWeightedRandom.getRandomItem(event.getWorld().rand, armorSlots);
-                        event.getEntity().setItemStackToSlot(slot, winner.getStack() == null ? ItemStack.EMPTY :  ((ItemStack) winner.getStack().getInternal()).copy());
-                        ((EntityLiving) event.getEntity()).setDropChance(slot, (float) winner.getChanceToDrop());
+        events.add(event);
+    }
+
+    @SubscribeEvent
+    public void onServerTick(TickEvent.ServerTickEvent tickEvent){
+        List<LivingSpawnEvent.SpecialSpawn> remove = new ArrayList<>();
+        for (LivingSpawnEvent.SpecialSpawn event : events){
+            if (event.isCanceled() || event.getEntity().isDead){
+                remove.add(event);
+                continue;
+            }
+            if (event.getEntity() instanceof EntityLiving) {
+                for (ArmorGroup group : ArmorHandler.ARMOR_GROUPS) {
+                    for (ArmorEntity entity : group.getEntities()) {
+                        if (!entity.checkEntity(event.getEntity()) || event.getWorld().rand.nextDouble() > group.getChance() || !isSomeoneInStage(event.getEntity(), group))
+                            continue;
+                        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                            List<ArmorSlot> armorSlots = group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot.getName())).collect(Collectors.toList());
+                            if (armorSlots.size() <= 0) continue;
+                            ArmorSlot winner = ZenWeightedRandom.getRandomItem(event.getWorld().rand, armorSlots);
+                            event.getEntity().setItemStackToSlot(slot, winner.getStack() == null ? ItemStack.EMPTY :  ((ItemStack) winner.getStack().getInternal()).copy());
+                            ((EntityLiving) event.getEntity()).setDropChance(slot, (float) winner.getChanceToDrop());
+                        }
                     }
                 }
             }
+            remove.add(event);
         }
+        events.removeAll(remove);
     }
+
 
     public boolean isSomeoneInStage(Entity entity, ArmorGroup group) {
         if (!Loader.isModLoaded(GAMESTAGES) || group.getGameStages().size() == 0) return true;

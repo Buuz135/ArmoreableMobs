@@ -17,6 +17,7 @@ public class ArmorGroup {
     private List<ArmorEntity> entities;
     private List<ArmorSlot> slots;
     private List<String> gameStages;
+    private String packMode;
 
     public ArmorGroup(String name, double chance) {
         this.name = name;
@@ -41,6 +42,10 @@ public class ArmorGroup {
         gameStages.add(stage);
     }
 
+    public String getPackMode() {
+        return packMode;
+    }
+
     public String getName() {
         return name;
     }
@@ -59,5 +64,10 @@ public class ArmorGroup {
 
     public List<String> getGameStages() {
         return gameStages;
+    }
+
+    @ZenMethod
+    public void setPackMode(String packMode) {
+        this.packMode = packMode;
     }
 }

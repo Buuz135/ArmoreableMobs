@@ -5,6 +5,7 @@ import com.buuz135.armoreablemobs.handler.ArmorGroup;
 import com.buuz135.armoreablemobs.handler.ArmorHandler;
 import com.buuz135.armoreablemobs.handler.ArmorSlot;
 import com.buuz135.armoreablemobs.util.GameStagesSupport;
+import com.buuz135.armoreablemobs.util.PackModeSupport;
 import com.buuz135.armoreablemobs.util.ZenWeightedRandom;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -36,6 +37,9 @@ public class ArmoreableMobs {
     public static final String MOD_NAME = "ArmoreableMobs";
     public static final String VERSION = "1.1.2";
     public static final String GAMESTAGES = "gamestages";
+    public static final String PACKMODE = "packmode";
+    public static boolean GAMESTAGES_LOADED = false;
+    public static boolean PACKMODE_LOADED = false;
 
     /**
      * This is the instance of your mod as created by Forge. It will never be null.
@@ -65,7 +69,8 @@ public class ArmoreableMobs {
      */
     @Mod.EventHandler
     public void postinit(FMLPostInitializationEvent event) {
-
+        GAMESTAGES_LOADED = Loader.isModLoaded(GAMESTAGES);
+        PACKMODE_LOADED = Loader.isModLoaded(PACKMODE);
     }
 
     public static List<LivingSpawnEvent.SpecialSpawn> events = new ArrayList<>();
@@ -85,8 +90,9 @@ public class ArmoreableMobs {
             }
             if (event.getEntity() instanceof EntityLiving) {
                 for (ArmorGroup group : ArmorHandler.ARMOR_GROUPS) {
+                    if (!isGroupInPackMode(group) || !isSomeoneInStage(event.getEntity(), group)) continue;
                     for (ArmorEntity entity : group.getEntities()) {
-                        if (!entity.checkEntity(event.getEntity()) || event.getWorld().rand.nextDouble() > group.getChance() || !isSomeoneInStage(event.getEntity(), group))
+                        if (!entity.checkEntity(event.getEntity()) || event.getWorld().rand.nextDouble() > group.getChance())
                             continue;
                         for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
                             List<ArmorSlot> armorSlots = group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot.getName())).collect(Collectors.toList());
@@ -105,7 +111,12 @@ public class ArmoreableMobs {
 
 
     public boolean isSomeoneInStage(Entity entity, ArmorGroup group) {
-        if (!Loader.isModLoaded(GAMESTAGES) || group.getGameStages().size() == 0) return true;
+        if (!GAMESTAGES_LOADED || group.getGameStages().size() == 0) return true;
         return GameStagesSupport.checkForStages(entity, group);
+    }
+
+    public boolean isGroupInPackMode(ArmorGroup group) {
+        if (!PACKMODE_LOADED || group.getPackMode() == null) return true;
+        return PackModeSupport.isPackModeEnabled(group.getPackMode());
     }
 }

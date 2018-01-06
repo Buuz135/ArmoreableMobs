@@ -25,6 +25,9 @@ An ArmorEntity defines information that an Entity needs to have to be given in t
 ### GameStages Support
 This mod provides GameStages to groups with `group.addGameStage("testStage");`. Nearby players need to have all the stages added to the group to be able to get used.
 
+### PackMode Support
+Adding a pack mode to an ArmorGroup it will allow you to filter groups without the need of restarting the game.  `group.setPackMode("packMode");`
+
 ## Full Example
 
 ```

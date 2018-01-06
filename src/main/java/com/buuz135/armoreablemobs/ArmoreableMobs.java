@@ -73,7 +73,7 @@ public class ArmoreableMobs {
         PACKMODE_LOADED = Loader.isModLoaded(PACKMODE);
     }
 
-    public static List<LivingSpawnEvent.SpecialSpawn> events = new ArrayList<>();
+    private static List<LivingSpawnEvent.SpecialSpawn> events = new ArrayList<>();
 
     @SubscribeEvent
     public void onEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
@@ -110,13 +110,11 @@ public class ArmoreableMobs {
     }
 
 
-    public boolean isSomeoneInStage(Entity entity, ArmorGroup group) {
-        if (!GAMESTAGES_LOADED || group.getGameStages().size() == 0) return true;
-        return GameStagesSupport.checkForStages(entity, group);
+    private boolean isSomeoneInStage(Entity entity, ArmorGroup group) {
+        return !GAMESTAGES_LOADED || group.getGameStages().size() == 0 || GameStagesSupport.checkForStages(entity, group);
     }
 
-    public boolean isGroupInPackMode(ArmorGroup group) {
-        if (!PACKMODE_LOADED || group.getPackMode() == null) return true;
-        return PackModeSupport.isPackModeEnabled(group.getPackMode());
+    private boolean isGroupInPackMode(ArmorGroup group) {
+        return !PACKMODE_LOADED || group.getPackMode() == null || PackModeSupport.isPackModeEnabled(group.getPackMode());
     }
 }

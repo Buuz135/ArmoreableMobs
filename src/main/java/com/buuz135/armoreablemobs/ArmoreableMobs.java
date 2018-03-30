@@ -88,27 +88,34 @@ public class ArmoreableMobs {
                 remove.add(event);
                 continue;
             }
-            if (event.getEntity() instanceof EntityLiving) {
-                for (ArmorGroup group : ArmorHandler.ARMOR_GROUPS) {
-                    if (!isGroupInPackMode(group) || !isSomeoneInStage(event.getEntity(), group)) continue;
-                    for (ArmorEntity entity : group.getEntities()) {
-                        if (!entity.checkEntity(event.getEntity()) || event.getWorld().rand.nextDouble() > group.getChance())
-                            continue;
-                        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-                            List<ArmorSlot> armorSlots = group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot.getName())).collect(Collectors.toList());
-                            if (armorSlots.size() <= 0) continue;
-                            ArmorSlot winner = ZenWeightedRandom.getRandomItem(event.getWorld().rand, armorSlots);
-                            event.getEntity().setItemStackToSlot(slot, winner.getStack() == null ? ItemStack.EMPTY :  ((ItemStack) winner.getStack().getInternal()).copy());
-                            ((EntityLiving) event.getEntity()).setDropChance(slot, (float) winner.getChanceToDrop());
-                        }
-                    }
-                }
+            checkForArmor(event.getEntity());
+            for (Entity entity : event.getEntity().getPassengers()) {
+                checkForArmor(entity);
             }
             remove.add(event);
         }
         events.removeAll(remove);
     }
 
+    private void checkForArmor(Entity entityCheck) {
+        if (entityCheck instanceof EntityLiving) {
+            for (ArmorGroup group : ArmorHandler.ARMOR_GROUPS) {
+                if (!isGroupInPackMode(group) || !isSomeoneInStage(entityCheck, group)) continue;
+                for (ArmorEntity entity : group.getEntities()) {
+                    if (!entity.checkEntity(entityCheck) || entityCheck.world.rand.nextDouble() > group.getChance())
+                        continue;
+                    for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                        List<ArmorSlot> armorSlots = group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot.getName())).collect(Collectors.toList());
+                        if (armorSlots.size() <= 0) continue;
+                        ArmorSlot winner = ZenWeightedRandom.getRandomItem(entityCheck.world.rand, armorSlots);
+                        entityCheck.setItemStackToSlot(slot, winner.getStack() == null ? ItemStack.EMPTY : ((ItemStack) winner.getStack().getInternal()).copy());
+                        ((EntityLiving) entityCheck).setDropChance(slot, (float) winner.getChanceToDrop());
+                    }
+                }
+            }
+
+        }
+    }
 
     private boolean isSomeoneInStage(Entity entity, ArmorGroup group) {
         return !GAMESTAGES_LOADED || group.getGameStages().size() == 0 || GameStagesSupport.checkForStages(entity, group);

@@ -1,3 +1,6 @@
+# 1.1.6
++ Entities that are riding entities like Spider Jockeys are now checked
+
 # 1.1.5
 + Added PackMode support
 

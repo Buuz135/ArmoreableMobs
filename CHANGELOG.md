@@ -1,3 +1,6 @@
+# 1.1.7
++ Updated Gamestages support to 2.0
+
 # 1.1.6
 + Entities that are riding entities like Spider Jockeys are now checked
 

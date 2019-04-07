@@ -41,7 +41,7 @@ public class ArmorEntity {
     }
 
     public boolean checkEntity(Entity entity) {
-        if (!EntityList.getKey(entity).toString().equals(id)) return false;
+        if (EntityList.getKey(entity) == null || !EntityList.getKey(entity).toString().equals(id)) return false;
         for (NBTContainer container : nbtChecks.keySet()) {
             if (!nbtChecks.get(container).checkNbt(CommandBase.entityToNBT(entity), container)) return false;
         }

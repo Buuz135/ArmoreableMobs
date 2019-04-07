@@ -7,6 +7,7 @@ import com.buuz135.armoreablemobs.handler.ArmorSlot;
 import com.buuz135.armoreablemobs.util.GameStagesSupport;
 import com.buuz135.armoreablemobs.util.PackModeSupport;
 import com.buuz135.armoreablemobs.util.ZenWeightedRandom;
+import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -23,7 +24,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mod(
         modid = ArmoreableMobs.MOD_ID,
@@ -105,7 +105,7 @@ public class ArmoreableMobs {
                     if (!entity.checkEntity(entityCheck) || entityCheck.world.rand.nextDouble() > group.getChance())
                         continue;
                     for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-                        List<ArmorSlot> armorSlots = group.getSlots().stream().filter(slot1 -> slot1.getSlot().equals(slot.getName())).collect(Collectors.toList());
+                        List<ArmorSlot> armorSlots = generateList(slot, group, entityCheck);
                         if (armorSlots.size() <= 0) continue;
                         ArmorSlot winner = ZenWeightedRandom.getRandomItem(entityCheck.world.rand, armorSlots);
                         entityCheck.setItemStackToSlot(slot, winner.getStack() == null ? ItemStack.EMPTY : ((ItemStack) winner.getStack().getInternal()).copy());
@@ -115,6 +115,17 @@ public class ArmoreableMobs {
             }
 
         }
+    }
+
+    private List<ArmorSlot> generateList(EntityEquipmentSlot slot, ArmorGroup group, Entity entity) {
+        ArrayList<ArmorSlot> slots = new ArrayList<>();
+        for (ArmorSlot groupSlot : group.getSlots()) {
+            if (!groupSlot.getSlot().equals(slot.getName())) continue;
+            if (!groupSlot.canReplace() && !Lists.newArrayList(entity.getEquipmentAndArmor()).get(slot.getSlotIndex()).isEmpty())
+                continue;
+            slots.add(groupSlot);
+        }
+        return slots;
     }
 
     private boolean isSomeoneInStage(Entity entity, ArmorGroup group) {

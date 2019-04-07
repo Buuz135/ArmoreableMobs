@@ -22,6 +22,7 @@ public class ArmorSlot extends ZenWeightedRandom.Item {
         this.stack = stack;
         this.weight = weight;
         this.chanceToDrop = chanceToDrop;
+        this.replace = true;
     }
 
     public String getSlot() {

@@ -1,0 +1,36 @@
+modLoader="javafml" #mandatory
+loaderVersion="[36,)"
+license="MIT"
+[[mods]]
+modId="armoreablemods"
+version="${file.jarVersion}" 
+displayName="Armoreable Mods"
+credits="Jaredlll08"
+authors="Witixin" 
+description='''
+A mod that allows you to
+'''
+[[dependencies.armoreablemods]]
+    modId="forge"
+    mandatory=true #mandatory
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.armoreablemods]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.armoreablemods]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.armoreablemods]]
+    modId = "crafttweaker"
+    mandatory = true
+    versionRange="[7.1.2.451,]"
+    ordering="NONE"
+    side="BOTH"

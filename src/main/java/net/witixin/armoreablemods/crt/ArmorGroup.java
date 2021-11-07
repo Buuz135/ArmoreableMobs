@@ -15,6 +15,7 @@ import java.util.*;
 @ZenRegister
 @ZenCodeType.Name("mods.armoreablemods.ArmorGroup")
 public class ArmorGroup extends Object {
+
     private String name;
     private Map<EquipmentSlotType, ItemStack> slotItemStackMap = new HashMap<>();
     private List<String> stageList;
@@ -23,7 +24,6 @@ public class ArmorGroup extends Object {
 
     public static List<EntityType<?>> overrideArmorGroups = new ArrayList<>();
 
-
     @ZenCodeType.Constructor
     public ArmorGroup(String name){
         this.name = name;
@@ -31,9 +31,6 @@ public class ArmorGroup extends Object {
         weight = 1.0;
     }
 
-    public ArmorGroup(Map<EquipmentSlotType, ItemStack> slotItemStackMap){
-        this.slotItemStackMap = slotItemStackMap;
-    }
     public ArmorGroup(Iterator<ItemStack> iterator, ItemStack mainhand, ItemStack offhand){
             slotItemStackMap.put(EquipmentSlotType.HEAD, iterator.next());
             slotItemStackMap.put(EquipmentSlotType.CHEST, iterator.next());
@@ -42,6 +39,7 @@ public class ArmorGroup extends Object {
             slotItemStackMap.put(EquipmentSlotType.MAINHAND, mainhand);
             slotItemStackMap.put(EquipmentSlotType.OFFHAND, offhand);
     }
+
     @ZenCodeType.Method
     public ArmorGroup setWeight(double weight){
         this.weight = weight;
@@ -66,6 +64,7 @@ public class ArmorGroup extends Object {
         Reference.armorList.put(type.getInternal(), Utilities.mergeOrMakeList(Reference.armorList.get(type.getInternal()), this));
         CraftTweakerAPI.logInfo("Registered new ArmorGroup for entity: " + type.getRegistryName().toString() + " under the name: " + this.getName());
     }
+
     @ZenCodeType.Method
     public Map<EquipmentSlotType, ItemStack> getMap(){
         return this.slotItemStackMap;
@@ -75,14 +74,17 @@ public class ArmorGroup extends Object {
     public List<String> getStages(){
         return this.stageList;
     }
+
     @ZenCodeType.Method
     public String getPackmode(){
         return this.packmode;
     }
+
     @ZenCodeType.Method
     public void setPackmode(String packmode){
         this.packmode = packmode;
     }
+
     @ZenCodeType.Method
     public double getWeight(){return this.weight;}
 
@@ -95,7 +97,6 @@ public class ArmorGroup extends Object {
     public ItemStack getStackinSlot(EquipmentSlotType slot){
         return slotItemStackMap.get(slot);
     }
-
 
     @Override
     public String toString() {

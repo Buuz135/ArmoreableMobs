@@ -52,7 +52,6 @@ public class Reference
         armorList.clear();
     }
     private static ArmorGroup rollGroup(List<ArmorGroup> group){
-        LOGGER.info("Group size is:" + group.size());
         double maxWeight = 0.0;
         for (ArmorGroup individual : group){
             maxWeight += individual.getWeight();

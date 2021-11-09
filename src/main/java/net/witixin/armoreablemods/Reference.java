@@ -38,7 +38,7 @@ public class Reference
 
     }
 
-    public void onSpawn(LivingSpawnEvent event){
+    public void onSpawn(LivingSpawnEvent.SpecialSpawn event){
         if (armorList.keySet().contains(event.getEntityLiving().getType())){
             ArmorGroup currentGroup = new ArmorGroup(event.getEntityLiving().getArmorSlots().iterator(), event.getEntityLiving().getItemBySlot(EquipmentSlotType.MAINHAND), event.getEntityLiving().getItemBySlot(EquipmentSlotType.OFFHAND));
             ArmorGroup selectedGroup = rollGroup(armorList.get(event.getEntity().getType()));

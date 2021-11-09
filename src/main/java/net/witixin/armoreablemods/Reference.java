@@ -39,7 +39,6 @@ public class Reference
     }
 
     public void onSpawn(LivingSpawnEvent event){
-        System.out.println(event.getWorld().getBlockState(event.getEntityLiving().blockPosition().below()).getBlock().getRegistryName());
         if (armorList.keySet().contains(event.getEntityLiving().getType())){
             ArmorGroup currentGroup = new ArmorGroup(event.getEntityLiving().getArmorSlots().iterator(), event.getEntityLiving().getItemBySlot(EquipmentSlotType.MAINHAND), event.getEntityLiving().getItemBySlot(EquipmentSlotType.OFFHAND));
             ArmorGroup selectedGroup = rollGroup(armorList.get(event.getEntity().getType()));
@@ -50,20 +49,13 @@ public class Reference
                 if (currentGroup.isEmpty()){
                     attachItems(selectedGroup, event.getEntityLiving());
                 }
-                try {
-                    boolean bool1 = entityBlockStateMapOverrides.containsKey(event.getEntityLiving().getType());
-                    boolean bool2 = entityBlockStateMapOverrides.get(event.getEntityLiving().getType()) != null;
-                    boolean bool3 = event.getWorld().getBlockState(event.getEntityLiving().blockPosition().below()).equals((entityBlockStateMapOverrides.get(event.getEntityLiving().getType())));
-                    if (bool1 && bool2 && bool3){
+                    if (entityBlockStateMapOverrides.containsKey(event.getEntityLiving().getType()) && entityBlockStateMapOverrides.get(event.getEntityLiving().getType()) != null && event.getWorld().getBlockState(event.getEntityLiving().blockPosition().below()).equals((entityBlockStateMapOverrides.get(event.getEntityLiving().getType())))){
                         ArmorGroup g = new ArmorGroup(event.getEntityLiving().getType().getRegistryName().toString() + entityBlockStateMapOverrides.get(event.getEntityLiving().getType()).getBlock().getRegistryName().toString());
                         blockstateArmorOverries.get(event.getWorld().getBlockState(event.getEntityLiving().blockPosition().below())).forEach((slot, item) -> {
                             g.inSlot(slot, item.getInternal());
                         });
                         attachItems(g, event.getEntityLiving());
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
             }
         }
     }

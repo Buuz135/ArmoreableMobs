@@ -16,7 +16,7 @@ Methods can be found in the Crafttweaker documentation page(LINK).
 
 #Static methods
 
-`MyArmorGroup.overrideExistingArmor(type as MCEntityType, map as IItemStack[MCEquipmentSlotType], blockstate as @Optional MCBlockState) as void` -> In the event that the mob spawns with armor, overrides that with a possible ArmorGroup.
+`ArmorGroup.overrideExistingArmor(type as MCEntityType, map as IItemStack[MCEquipmentSlotType], blockstate as @Optional MCBlockState) as void` -> In the event that the mob spawns with armor, overrides that with a possible ArmorGroup.
 
 
 #Optional Methods

@@ -2,9 +2,13 @@ package net.witixin.armoreablemods.crt;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker.impl.entity.MCEntityType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.witixin.armoreablemods.Reference;
 import net.witixin.armoreablemods.Utilities;
@@ -30,7 +34,6 @@ public class ArmorGroup extends Object {
         stageList = new ArrayList<>();
         weight = 1.0;
     }
-
     public ArmorGroup(Iterator<ItemStack> iterator, ItemStack mainhand, ItemStack offhand){
             slotItemStackMap.put(EquipmentSlotType.HEAD, iterator.next());
             slotItemStackMap.put(EquipmentSlotType.CHEST, iterator.next());
@@ -52,7 +55,6 @@ public class ArmorGroup extends Object {
         }
         return this;
     }
-
     @ZenCodeType.Method
     public ArmorGroup inSlot(EquipmentSlotType slot, ItemStack stack){
         slotItemStackMap.put(slot, stack);
@@ -104,8 +106,16 @@ public class ArmorGroup extends Object {
     }
 
     @ZenCodeType.Method
-    public static void overrideExistingArmor(MCEntityType type){
-        overrideArmorGroups.add(type.getInternal());
+    public static void overrideExistingArmor(MCEntityType type, Map<EquipmentSlotType, IItemStack> map, @ZenCodeType.Optional BlockState state){
+        if (state == null) {
+            overrideArmorGroups.add(type.getInternal());
+        } else {
+            addBlockOverrides(type, state, map);
+        }
+    }
+    private static void addBlockOverrides(MCEntityType type, BlockState state, Map<EquipmentSlotType, IItemStack> map){
+        Reference.entityBlockStateMapOverrides.put(type.getInternal(), state);
+        Reference.blockstateArmorOverries.put(state, map);
     }
 
     @Override

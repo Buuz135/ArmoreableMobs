@@ -1,9 +1,9 @@
-#Armoreable Mobs
+# Armoreable Mobs
 
 A mod that allows you to give armor on spawn to living mobs.
 Methods can be found in the Crafttweaker documentation page(LINK).
 
-#ArmorGroup methods
+# ArmorGroup methods
 `new ArmorGroup(name as string) as ArmorGroup` -> Returns a new ArmorGroup with the specified name.
 
 `MyArmorGroup.setWeight(weight as double) as ArmorGroup` -> Returns a new ArmorGroup with the specified weight. Weight affects how common that armor is given to mobs that spawn with it.
@@ -14,12 +14,12 @@ Methods can be found in the Crafttweaker documentation page(LINK).
 
 `MyArmorGroup.register(entitytype as MCEntityType) as void` -> Adds the ArmorGroup to that entity's armor list.
 
-#Static methods
+# Static methods
 
 `ArmorGroup.overrideExistingArmor(type as MCEntityType, map as IItemStack[MCEquipmentSlotType], blockstate as @Optional MCBlockState) as void` -> In the event that the mob spawns with armor, overrides that with a possible ArmorGroup.
 
 
-#Optional Methods
+# Optional Methods
 
 Requires GamestagesAPI:
 
@@ -34,7 +34,7 @@ Requires Packmode:
 
 
 
-#Example
+# Example
 
 ```zenscript
 import mods.armoreablemods.ArmorGroup;

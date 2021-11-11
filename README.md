@@ -1,7 +1,7 @@
 # Armoreable Mobs
 
 A mod that allows you to give armor on spawn to living mobs.
-Methods can be found in the Crafttweaker documentation page(LINK).
+Methods can be found in the Crafttweaker documentation page: https://docs.blamejared.com/1.16/en/mods/ArmoreableMobs/ArmoreableMobs.
 
 # ArmorGroup methods
 `new ArmorGroup(name as string) as ArmorGroup` -> Returns a new ArmorGroup with the specified name.

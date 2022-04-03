@@ -1,0 +1,30 @@
+modLoader="javafml" #mandatory
+loaderVersion="[40,)"
+license="MIT"
+[[mods]]
+modId="armoreablemods"
+version="${file.jarVersion}" 
+displayName="Armoreable Mods"
+credits="Buuz135 for making this mod"
+authors="Buuz135, Witixin"
+description='''
+A mod that allows you to give any item to any entity when it spawns using CraftTweaker.
+'''
+[[dependencies.armoreablemods]]
+    modId="forge"
+    mandatory=true #mandatory
+    versionRange="[40,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.armoreablemods]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.2, 1.19)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.armoreablemods]]
+    modId = "crafttweaker"
+    mandatory = true
+    versionRange="[9.1.,]"
+    ordering="NONE"
+    side="BOTH"

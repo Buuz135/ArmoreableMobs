@@ -1,4 +1,4 @@
-package net.witixin.armoreablemods;
+package net.witixin.armoreablemobs;
 
 import java.util.ArrayList;
 import java.util.List;

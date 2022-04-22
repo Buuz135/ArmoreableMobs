@@ -1,15 +1,12 @@
-package net.witixin.armoreablemods.crt;
+package net.witixin.armoreablemobs;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IItemStack;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.witixin.armoreablemods.Reference;
-import net.witixin.armoreablemods.Utilities;
 import org.openzen.zencode.java.ZenCodeType;
 
 import java.util.*;
@@ -34,12 +31,13 @@ public class ArmorGroup {
         weight = 1.0;
     }
     public ArmorGroup(Iterator<ItemStack> iterator, ItemStack mainhand, ItemStack offhand){
-            slotItemStackMap.put(EquipmentSlot.HEAD, iterator.next());
-            slotItemStackMap.put(EquipmentSlot.CHEST, iterator.next());
-            slotItemStackMap.put(EquipmentSlot.LEGS, iterator.next());
-            slotItemStackMap.put(EquipmentSlot.FEET, iterator.next());
-            slotItemStackMap.put(EquipmentSlot.MAINHAND, mainhand);
-            slotItemStackMap.put(EquipmentSlot.OFFHAND, offhand);
+        slotItemStackMap.put(EquipmentSlot.HEAD, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.CHEST, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.LEGS, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.FEET, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.MAINHAND, mainhand);
+        slotItemStackMap.put(EquipmentSlot.OFFHAND, offhand);
+
     }
 
     @ZenCodeType.Method
@@ -55,8 +53,8 @@ public class ArmorGroup {
 
     @ZenCodeType.Method
     public void register(EntityType type){
-        Reference.armorList.put(type, Utilities.mergeOrMakeList(Reference.armorList.get(type), this));
-        CraftTweakerAPI.LOGGER.info("Registered new ArmorGroup for entity: " + type.getRegistryName().toString() + " under the name: " + this.getName());
+        CommonClass.armorList.put(type, Utilities.mergeOrMakeList(CommonClass.armorList.get(type), this));
+        CraftTweakerAPI.LOGGER.info("Registered new ArmorGroup for entity: " + EntityType.getKey(type).toString() + " under the name: " + this.getName());
     }
 
     @ZenCodeType.Method
@@ -116,8 +114,8 @@ public class ArmorGroup {
         }
     }
     private static void addBlockOverrides(EntityType type, BlockState state, Map<EquipmentSlot, IItemStack> map){
-        Reference.entityBlockStateMapOverrides.put(type, state);
-        Reference.blockstateArmorOverries.put(state, map);
+        CommonClass.entityBlockStateMapOverrides.put(type, state);
+        CommonClass.blockstateArmorOverries.put(state, map);
     }
 
     @Override

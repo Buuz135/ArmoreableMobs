@@ -1,0 +1,38 @@
+{
+    "schemaVersion": 1,
+    "id": "modid",
+    "version": "${version}",
+  
+    "name": "ArmoreableMobs",
+    "description": "A mod that allows you to give any item to any entity when it spawns using CraftTweaker.",
+    "authors": [
+      "Buuz135", "Witixin"
+    ],
+    "contact": {
+      "sources": "https://github.com/Buuz135/ArmoreableMobs"
+    },
+  
+    "license": "MIT",
+  
+    "environment": "*",
+    "entrypoints": {
+      "main": [
+        "net.witixin.armoreablemobs.Reference"
+      ]
+    },
+    "mixins": [
+      "armoreablemobs.mixins.json"
+    ],
+  
+    "depends": {
+      "fabricloader": ">=0.13",
+      "fabric": "*",
+      "minecraft": "1.18.x",
+      "java": ">=17",
+      "crafttweaker" : ">= 9.1.x"
+    },
+    "suggests": {
+      "another-mod": "*"
+    }
+  }
+  

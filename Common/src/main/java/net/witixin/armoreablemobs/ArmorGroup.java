@@ -25,6 +25,11 @@ public class ArmorGroup {
 
     public static List<EntityType> overrideArmorGroups = new ArrayList<>();
 
+    /**
+     *
+     * @param name The display name of the group to create.
+     */
+
     @ZenCodeType.Constructor
     public ArmorGroup(String name){
         this.name = name;
@@ -42,16 +47,36 @@ public class ArmorGroup {
 
     }
 
+    /**
+     * Sets the weight at which the armor group can spawn. The chance a group has to spawn on an entity is determined using a pseudo random number and the total weight of ArmorGroups that entity can have.
+     *
+     * @param weight The weight at which the ArmorGroup will spawn on the entity type.
+     * @return The ArmorGroup that has been modified.
+     */
     @ZenCodeType.Method
     public ArmorGroup setWeight(double weight){
         this.weight = weight;
         return this;
     }
+
+    /**
+     * Links a slot to the ItemStack the entity will get when spawning. Accepts all {@link EquipmentSlot} types.
+     *
+     * @param slot The slot at which the ItemStack will be placed
+     * @param stack The {@link IItemStack} to give to the Entity.
+     * @return
+     */
     @ZenCodeType.Method
-    public ArmorGroup inSlot(EquipmentSlot slot, ItemStack stack){
-        slotItemStackMap.put(slot, stack);
+    public ArmorGroup inSlot(EquipmentSlot slot, IItemStack stack){
+        slotItemStackMap.put(slot, stack.getInternal());
         return this;
     }
+
+    /**
+     * Registers the ArmorGroup.
+     *
+     * @param type The entity at which the ArmorGroup will be applied on spawn.
+     */
 
     @ZenCodeType.Method
     public void register(EntityType type){
@@ -59,18 +84,24 @@ public class ArmorGroup {
         CraftTweakerAPI.LOGGER.info("Registered new ArmorGroup for entity: " + EntityType.getKey(type).toString() + " under the name: " + this.getName());
     }
 
+    /**
+     * Returns the AssociativeArray that corresponds to the internal `EquipmentSlot[IItemStack]`
+     * @return The internal map as `EquipmentSlot[IItemStack]`
+     */
     @ZenCodeType.Method
     public Map<EquipmentSlot, ItemStack> getMap(){
         return this.slotItemStackMap;
     }
+    /*
+    These are discontinued as GameStages and Packmode aren't on 1.18 YET
+     */
 
-
-    @ZenCodeType.Method
+    //@ZenCodeType.Method
     public List<String> getStages(){
         return this.stageList;
     }
 
-    @ZenCodeType.Method
+    //@ZenCodeType.Method
     public String getPackmode(){
         return this.packmode;
     }
@@ -89,24 +120,44 @@ public class ArmorGroup {
     }
     */
 
+
+    /**
+     * Gets the weight of the ArmorGroup
+     * @return The weight of the group as a double.
+     */
     @ZenCodeType.Method
     public double getWeight(){return this.weight;}
 
+    /**
+     * Gets the name of the ArmorGroup
+     * @return The name of the group as a string.
+     */
     @ZenCodeType.Method
     public String getName(){
         return this.name;
     }
-
+    /**
+     * Gets the ItemStack the group will give in a selected slot. Can be null. Would be the same as using {@link ArmorGroup#getMap()} and passing the {@link EquipmentSlot} as a key.
+     * @return The ItemStack at the selected location. Can be null.
+     */
     @ZenCodeType.Method
     public ItemStack getStackinSlot(EquipmentSlot slot){
         return slotItemStackMap.get(slot);
     }
 
+    @ZenCodeType.Caster(implicit = true)
     @Override
     public String toString() {
         return this.name;
     }
 
+    /**
+     * A powerful method to override the armor of a mob depending on which block they are standing on.
+     *
+     * @param type The {@link EntityType} to Override
+     * @param map The Associative Array, as `EquipmentSlot[IItemStack]` that will be used as the entities armor. If an {@link EquipmentSlot} is empty, it won't override what's there.
+     * @param state The BlockState to override the armor if the aforementioned {@link EntityType} spawns on top of.
+     */
     @ZenCodeType.Method
     public static void overrideExistingArmor(EntityType type, Map<EquipmentSlot, IItemStack> map, @ZenCodeType.Optional BlockState state){
         if (state == null) {

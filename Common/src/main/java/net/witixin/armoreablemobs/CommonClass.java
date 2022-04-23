@@ -41,7 +41,7 @@ public class CommonClass {
                     if (entityBlockStateMapOverrides.containsKey(entity.getType()) && entityBlockStateMapOverrides.get(entity.getType()) != null && entity.getLevel().getBlockState(entity.blockPosition().below()).equals((entityBlockStateMapOverrides.get(entity.getType())))){
                         ArmorGroup g = new ArmorGroup(EntityType.getKey(entity.getType()) + entityBlockStateMapOverrides.get(entity.getType()).getBlock().toString());
                         blockstateArmorOverries.get(entity.getLevel().getBlockState(entity.blockPosition().below())).forEach((slot, item) -> {
-                            g.inSlot(slot, item.getInternal());
+                            g.inSlot(slot, item);
                         });
                         attachItems(g, entity);
                     }

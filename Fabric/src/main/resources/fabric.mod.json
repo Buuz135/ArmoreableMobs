@@ -29,7 +29,7 @@
       "fabric": "*",
       "minecraft": "1.18.x",
       "java": ">=17",
-      "crafttweaker" : ">= 9.1.x"
+      "crafttweaker" : ">=9.1"
     },
     "suggests": {
       "another-mod": "*"

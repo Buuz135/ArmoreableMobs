@@ -14,14 +14,13 @@ import java.util.Map;
 
 public class CommonClass {
 
+    public static final String MOD_ID = "armoreablemobs";
+    public static final String MOD_NAME = "Armoreable_Mobs";
+
     public static Map<EntityType, List<ArmorGroup>> armorList = new HashMap<>();
 
     public static Map<EntityType, BlockState> entityBlockStateMapOverrides = new HashMap<>();
-    public static Map<BlockState, Map<EquipmentSlot, ItemStack>> blockstateArmorOverries = new HashMap<>();
-
-    public static void init() {
-
-    }
+    public static Map<BlockState, Map<EquipmentSlot, IItemStack>> blockstateArmorOverries = new HashMap<>();
 
     public static void onSpawn(Entity fakeEntity){
 
@@ -42,7 +41,7 @@ public class CommonClass {
                     if (entityBlockStateMapOverrides.containsKey(entity.getType()) && entityBlockStateMapOverrides.get(entity.getType()) != null && entity.getLevel().getBlockState(entity.blockPosition().below()).equals((entityBlockStateMapOverrides.get(entity.getType())))){
                         ArmorGroup g = new ArmorGroup(EntityType.getKey(entity.getType()) + entityBlockStateMapOverrides.get(entity.getType()).getBlock().toString());
                         blockstateArmorOverries.get(entity.getLevel().getBlockState(entity.blockPosition().below())).forEach((slot, item) -> {
-                            g.inSlot(slot, item);
+                            g.inSlot(slot, item.getInternal());
                         });
                         attachItems(g, entity);
                     }

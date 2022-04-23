@@ -7,8 +7,6 @@ public class Reference implements ModInitializer {
     
     @Override
     public void onInitialize() {
-        CommonClass.init();
-
         ServerEntityEvents.ENTITY_LOAD.register(((entity, world) -> CommonClass.onSpawn(entity)));
         ServerEntityEvents.ENTITY_UNLOAD.register(((entity, world) -> CommonClass.onSpawn(entity)));
     }

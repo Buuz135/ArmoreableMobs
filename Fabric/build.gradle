@@ -13,7 +13,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":Common")
-    implementation("com.blamejared.crafttweaker:CraftTweaker-fabric-1.18.2:9.1.108")
+    modImplementation("com.blamejared.crafttweaker:CraftTweaker-fabric-1.18.2:9.1.108")
 }
 
 loom {
@@ -53,6 +53,12 @@ jar {
     }
 }
 
+build.finalizedBy('copyBin')
+
+task copyBin(type: Copy){
+    from project(':Fabric').file('build/libs/' + archivesBaseName + "-" + version + ".jar")
+    into rootProject.file("Common/output")
+}
 
 publishing {
     publications {

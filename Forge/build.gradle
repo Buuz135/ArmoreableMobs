@@ -89,10 +89,9 @@ processResources {
 
 jar.finalizedBy('reobfJar')
 
-//Copies the output file to a folder under Common
-build.finalizedBy('copyBin')
+build.finalizedBy('copyForge')
 
-task copyBin(type: Copy){
+task copyForge(type: Copy){
     from project(':Forge').file('build/libs/' + archivesBaseName + "-" + version + ".jar")
     into rootProject.file("Common/build-output")
 }

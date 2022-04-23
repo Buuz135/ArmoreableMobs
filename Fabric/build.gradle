@@ -52,10 +52,8 @@ jar {
         rename { "${it}_${mod_name}" }
     }
 }
-
-build.finalizedBy('copyBin')
-
-task copyBin(type: Copy){
+build.finalizedBy('copyFabric')
+task copyFabric(type: Copy){
     from project(':Fabric').file('build/libs/' + archivesBaseName + "-" + version + ".jar")
     into rootProject.file("Common/build-output")
 }

@@ -63,3 +63,10 @@ publishing {
         }
     }
 }
+
+
+task buildProject {
+    buildProject.group("build")
+    buildProject.finalizedBy project(":Forge").getTasksByName("build", true).stream().findAny().get()
+    buildProject.finalizedBy project(":Fabric").getTasksByName("build", true).stream().findAny().get()
+}

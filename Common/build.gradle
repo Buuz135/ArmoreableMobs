@@ -44,6 +44,8 @@ processResources {
 
 dependencies {
     compileOnly('com.blamejared.crafttweaker:CraftTweaker-common-1.18.2:9.1.108')
+    annotationProcessor("com.blamejared.crafttweaker:Crafttweaker_Annotation_Processors-${minecraft_version}:${crafttweaker_ap_version}")
+    annotationProcessor("com.blamejared.crafttweaker:CraftTweaker-common-${minecraft_version}:${crafttweaker_version}")
 }
 publishing {
     publications {

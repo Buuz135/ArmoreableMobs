@@ -64,20 +64,19 @@ publishing {
 
 task buildProject {
     buildProject.group("build")
-    buildProject.finalizedBy project(":Common").getTasksByName("clean", true).stream().findAny().get()
-    buildProject.finalizedBy project(":Forge").getTasksByName("build", true).stream().findAny().get()
-    buildProject.finalizedBy project(":Forge").getTasksByName("clean", true).stream().findAny().get()
-    buildProject.finalizedBy project(":Fabric").getTasksByName("clean", true).stream().findAny().get()
-    buildProject.finalizedBy project(":Fabric").getTasksByName("build", true).stream().findAny().get()
+    println("Building Forge project!")
+    buildProject.finalizedBy project(":Forge").tasks.getByName("build")
+    println("Building Fabric project!")
+    buildProject.finalizedBy project(":Fabric").tasks.getByName("build")
 }
 
 task generateDocs(type : Delete) {
     generateDocs.group("build")
-    project(":Common").getTasksByName("compileJava", true).stream().findAny().get().getOutputs().upToDateWhen {false}
-    project(":Fabric").getTasksByName("compileJava", true).stream().findAny().get().getOutputs().upToDateWhen {false}
-    project(":Forge").getTasksByName("compileJava", true).stream().findAny().get().getOutputs().upToDateWhen {false}
+    project(":Common").tasks.getByName("compileJava").getOutputs().upToDateWhen {false}
+    project(":Fabric").tasks.getByName("compileJava").getOutputs().upToDateWhen {false}
+    project(":Forge").tasks.getByName("compileJava").getOutputs().upToDateWhen {false}
     delete fileTree('docsOut')
-    generateDocs.finalizedBy project(":Common").getTasksByName("compileJava", true).stream().findAny().get()
-    generateDocs.finalizedBy project(":Fabric").getTasksByName("compileJava", true).stream().findAny().get()
-    generateDocs.finalizedBy project(":Forge").getTasksByName("compileJava", true).stream().findAny().get()
+    generateDocs.finalizedBy project(":Common").tasks.getByName("compileJava")
+    generateDocs.finalizedBy project(":Fabric").tasks.getByName("compileJava")
+    generateDocs.finalizedBy project(":Forge").tasks.getByName("compileJava")
 }

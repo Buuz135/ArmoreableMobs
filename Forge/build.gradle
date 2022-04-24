@@ -93,7 +93,7 @@ build.finalizedBy('copyForge')
 
 task copyForge(type: Copy){
     from project(':Forge').file('build/libs/' + archivesBaseName + "-" + version + ".jar")
-    into rootProject.file("Common/build-output")
+    into rootProject.file("build-output")
 }
 
 

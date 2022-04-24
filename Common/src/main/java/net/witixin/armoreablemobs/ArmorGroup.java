@@ -14,7 +14,7 @@ import java.util.*;
 
 @ZenRegister
 @ZenCodeType.Name("mods.armoreablemobs.ArmorGroup")
-@Document("mods/armoreablemobs/ArmorGroup")
+@Document("mods/ArmoreableMobs/ArmorGroup")
 public class ArmorGroup {
 
     private String name;
@@ -28,6 +28,7 @@ public class ArmorGroup {
     /**
      *
      * @param name The display name of the group to create.
+     *
      */
 
     @ZenCodeType.Constructor
@@ -52,6 +53,8 @@ public class ArmorGroup {
      *
      * @param weight The weight at which the ArmorGroup will spawn on the entity type.
      * @return The ArmorGroup that has been modified.
+     *
+     * @docParam weight 3.0
      */
     @ZenCodeType.Method
     public ArmorGroup setWeight(double weight){
@@ -64,7 +67,11 @@ public class ArmorGroup {
      *
      * @param slot The slot at which the ItemStack will be placed
      * @param stack The {@link IItemStack} to give to the Entity.
-     * @return
+     *
+     * @docParam slot <constant:minecraft:equipmentslot:feet>
+     * @docParam stack <item:minecraft:iron_boots>
+     *
+     * @return The ArmorGroup that has been modified.
      */
     @ZenCodeType.Method
     public ArmorGroup inSlot(EquipmentSlot slot, IItemStack stack){
@@ -76,6 +83,8 @@ public class ArmorGroup {
      * Registers the ArmorGroup.
      *
      * @param type The entity at which the ArmorGroup will be applied on spawn.
+     *
+     * @docParam type <entitytype:minecraft:zombie>
      */
 
     @ZenCodeType.Method
@@ -139,6 +148,8 @@ public class ArmorGroup {
     /**
      * Gets the ItemStack the group will give in a selected slot. Can be null. Would be the same as using {@link ArmorGroup#getMap()} and passing the {@link EquipmentSlot} as a key.
      * @return The ItemStack at the selected location. Can be null.
+     *
+     * @docParam slot <constant:minecraft:equipmentslot:head>
      */
     @ZenCodeType.Method
     public ItemStack getStackinSlot(EquipmentSlot slot){
@@ -157,6 +168,10 @@ public class ArmorGroup {
      * @param type The {@link EntityType} to Override
      * @param map The Associative Array, as `EquipmentSlot[IItemStack]` that will be used as the entities armor. If an {@link EquipmentSlot} is empty, it won't override what's there.
      * @param state The BlockState to override the armor if the aforementioned {@link EntityType} spawns on top of.
+     *
+     * @docParam type <entitytype:minecraft:zombie>
+     * @docParam map {<constant:minecraft:equipmentslot:chest> : <item:minecraft:netherite_chestplate>, <constant:minecraft:equipmentslot:mainhand> : <item:minecraft:netherite_sword>}
+     * @docParam state <blockstate:minecraft:sand>
      */
     @ZenCodeType.Method
     public static void overrideExistingArmor(EntityType type, Map<EquipmentSlot, IItemStack> map, @ZenCodeType.Optional BlockState state){

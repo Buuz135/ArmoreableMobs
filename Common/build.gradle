@@ -64,6 +64,20 @@ publishing {
 
 task buildProject {
     buildProject.group("build")
+    buildProject.finalizedBy project(":Common").getTasksByName("clean", true).stream().findAny().get()
     buildProject.finalizedBy project(":Forge").getTasksByName("build", true).stream().findAny().get()
+    buildProject.finalizedBy project(":Forge").getTasksByName("clean", true).stream().findAny().get()
+    buildProject.finalizedBy project(":Fabric").getTasksByName("clean", true).stream().findAny().get()
     buildProject.finalizedBy project(":Fabric").getTasksByName("build", true).stream().findAny().get()
+}
+
+task generateDocs(type : Delete) {
+    generateDocs.group("build")
+    project(":Common").getTasksByName("compileJava", true).stream().findAny().get().getOutputs().upToDateWhen {false}
+    project(":Fabric").getTasksByName("compileJava", true).stream().findAny().get().getOutputs().upToDateWhen {false}
+    project(":Forge").getTasksByName("compileJava", true).stream().findAny().get().getOutputs().upToDateWhen {false}
+    delete fileTree('docsOut')
+    generateDocs.finalizedBy project(":Common").getTasksByName("compileJava", true).stream().findAny().get()
+    generateDocs.finalizedBy project(":Fabric").getTasksByName("compileJava", true).stream().findAny().get()
+    generateDocs.finalizedBy project(":Forge").getTasksByName("compileJava", true).stream().findAny().get()
 }

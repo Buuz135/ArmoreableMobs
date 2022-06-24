@@ -21,6 +21,10 @@ gradle
 # other
 eclipse
 run
+runClient
+runData
+runServer
+
 
 # Files from Forge MDK
 forge*changelog.txt

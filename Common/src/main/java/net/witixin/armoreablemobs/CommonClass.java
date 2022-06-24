@@ -5,12 +5,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiPredicate;
 
 public class CommonClass {
 
@@ -22,32 +24,33 @@ public class CommonClass {
     public static Map<EntityType, BlockState> entityBlockStateMapOverrides = new HashMap<>();
     public static Map<BlockState, Map<EquipmentSlot, IItemStack>> blockstateArmorOverries = new HashMap<>();
 
-    public static void onSpawn(Entity fakeEntity){
 
-        System.out.println(armorList);
+    //TODO fix bug with overrides
 
+    public static ArmorGroup onSpawn(Entity fakeEntity, BiPredicate<LivingEntity, List<String>> predicate){
         if (fakeEntity instanceof LivingEntity entity){
             if (armorList.containsKey(entity.getType())){
-                System.out.println(armorList.get(entity.getType()).get(0).getMap());
                 ArmorGroup currentGroup = new ArmorGroup(entity.getArmorSlots().iterator(), entity.getItemBySlot(EquipmentSlot.MAINHAND), entity.getItemBySlot(EquipmentSlot.OFFHAND));
                 ArmorGroup selectedGroup = rollGroup(armorList.get(entity.getType()));
-                if (GameStagesHelper.entityPlayerStageNearby(entity, selectedGroup.getStages()) && PackModeHelper.playerPackmodeNearby(entity, selectedGroup.getPackmode())){
-                    if (ArmorGroup.overrideArmorGroups.contains(entity.getType())){
-                        attachItems(selectedGroup, entity);
+                if (GameStagesHelper.delegatePredicate(entity, selectedGroup.getStages(), predicate) && PackModeHelper.playerPackmodeNearby(entity, selectedGroup.getPackmode())){
+                    if (ArmorGroup.overrideArmorGroups.containsKey(entity.getType())){
+                        ArmorGroup.overrideArmorGroups.get(entity.getType()).forEach((equipmentSlot, iItemStack) -> entity.setItemSlot(equipmentSlot, iItemStack.getInternal()));
+                        return new ArmorGroup(ArmorGroup.overrideArmorGroups.get(entity.getType()).values().stream().map(IItemStack::getInternal).iterator());
                     }
                     if (currentGroup.isEmpty()){
                         attachItems(selectedGroup, entity);
                     }
                     if (entityBlockStateMapOverrides.containsKey(entity.getType()) && entityBlockStateMapOverrides.get(entity.getType()) != null && entity.getLevel().getBlockState(entity.blockPosition().below()).equals((entityBlockStateMapOverrides.get(entity.getType())))){
                         ArmorGroup g = new ArmorGroup(EntityType.getKey(entity.getType()) + entityBlockStateMapOverrides.get(entity.getType()).getBlock().toString());
-                        blockstateArmorOverries.get(entity.getLevel().getBlockState(entity.blockPosition().below())).forEach((slot, item) -> {
-                            g.inSlot(slot, item);
-                        });
+                        blockstateArmorOverries.get(entity.getLevel().getBlockState(entity.blockPosition().below())).forEach(g::inSlot);
                         attachItems(g, entity);
+                        return g;
                     }
+                    return selectedGroup;
                 }
             }
         }
+        return null;
     }
     public static void onReload(){
         armorList.clear();

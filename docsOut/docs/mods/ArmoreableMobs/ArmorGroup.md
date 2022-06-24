@@ -51,6 +51,25 @@ new ArmorGroup(name as string) as ArmorGroup
 
 ## Methods
 
+:::group{name=addStages}
+
+Will only work on Forge.
+ Gates the ArmorGroup from being given unless there's a player nearby with ALL of the stages in the Group.
+
+Returns: The [ArmorGroup](/mods/ArmoreableMobs/ArmorGroup) itself.  
+Return Type: [ArmorGroup](/mods/ArmoreableMobs/ArmorGroup)
+
+```zenscript
+ArmorGroup.addStages(stages as string[]) as ArmorGroup
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| stages | string[] | The list of stages necessary for the [ArmorGroup](/mods/ArmoreableMobs/ArmorGroup) to be given. |
+
+
+:::
+
 :::group{name=getMap}
 
 Returns the AssociativeArray that corresponds to the internal `EquipmentSlot[IItemStack]`
@@ -98,6 +117,21 @@ myArmorGroup.getStackinSlot(<constant:minecraft:equipmentslot:head>);
 |-----------|------|-------------|
 | slot | [EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot) | No Description Provided |
 
+
+:::
+
+:::group{name=getStages}
+
+Returns the names of the stages required to unlock this group. Will be empty on Fabric.
+
+Returns: The list of stages  
+Return Type: stdlib.List&lt;string&gt;
+
+```zenscript
+// ArmorGroup.getStages() as stdlib.List<string>
+
+myArmorGroup.getStages();
+```
 
 :::
 

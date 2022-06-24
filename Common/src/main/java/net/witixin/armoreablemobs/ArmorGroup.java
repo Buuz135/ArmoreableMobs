@@ -3,6 +3,7 @@ package net.witixin.armoreablemobs;
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IItemStack;
+import com.blamejared.crafttweaker.platform.Services;
 import com.blamejared.crafttweaker_annotations.annotations.Document;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,7 +24,7 @@ public class ArmorGroup {
     private double weight;
     private String packmode;
 
-    public static List<EntityType> overrideArmorGroups = new ArrayList<>();
+    public static Map<EntityType, Map<EquipmentSlot, IItemStack>> overrideArmorGroups = new HashMap<>();
 
     /**
      *
@@ -45,7 +46,15 @@ public class ArmorGroup {
         slotItemStackMap.put(EquipmentSlot.FEET, iterator.next());
         slotItemStackMap.put(EquipmentSlot.MAINHAND, mainhand);
         slotItemStackMap.put(EquipmentSlot.OFFHAND, offhand);
-
+        this.name = "DummyGroup";
+    }
+    public ArmorGroup(Iterator<ItemStack> iterator){
+        slotItemStackMap.put(EquipmentSlot.HEAD, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.CHEST, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.LEGS, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.FEET, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.MAINHAND, iterator.next());
+        slotItemStackMap.put(EquipmentSlot.OFFHAND, iterator.next());
     }
 
     /**
@@ -101,11 +110,13 @@ public class ArmorGroup {
     public Map<EquipmentSlot, ItemStack> getMap(){
         return this.slotItemStackMap;
     }
-    /*
-    These are discontinued as GameStages and Packmode aren't on 1.18 YET
+
+    /**
+     * Returns the names of the stages required to unlock this group. Will be empty on Fabric.
+     * @return The list of stages
      */
 
-    //@ZenCodeType.Method
+    @ZenCodeType.Method
     public List<String> getStages(){
         return this.stageList;
     }
@@ -114,20 +125,37 @@ public class ArmorGroup {
     public String getPackmode(){
         return this.packmode;
     }
+
+
+
     /*
+    packmode isn't on 1.18 as of now
     @ZenCodeType.Method
-    public void setPackmode(String packmode){
+    public ArmorGroup setPackmode(String packmode){
         this.packmode = packmode;
+        return this;
+
     }
+    */
+
+    /**
+     * Will only work on Forge.
+     * Gates the ArmorGroup from being given unless there's a player nearby with ALL of the stages in the Group.
+     * @param stages The list of stages necessary for the {@link ArmorGroup} to be given.
+     * @return The {@link ArmorGroup} itself.
+     */
 
     @ZenCodeType.Method
     public ArmorGroup addStages(String... stages){
-        for (String s : stages){
-            this.stageList.add(s);
+        if (Services.PLATFORM.getPlatformName().equals("Forge")){
+            this.stageList.addAll(Arrays.asList(stages));
+        }
+        else {
+            CraftTweakerAPI.LOGGER.warn("Forge only method (ArmorGroup#addStages) was run on a Fabric Platform! This will not do anything!");
         }
         return this;
     }
-    */
+
 
 
     /**
@@ -176,7 +204,7 @@ public class ArmorGroup {
     @ZenCodeType.Method
     public static void overrideExistingArmor(EntityType type, Map<EquipmentSlot, IItemStack> map, @ZenCodeType.Optional BlockState state){
         if (state == null) {
-            overrideArmorGroups.add(type);
+            overrideArmorGroups.put(type, map);
         } else {
             addBlockOverrides(type, state, map);
         }

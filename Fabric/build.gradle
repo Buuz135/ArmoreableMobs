@@ -22,13 +22,16 @@ loom {
             client()
             setConfigName("Fabric Client")
             ideConfigGenerated(true)
+            programArg "--username=Dev"
             runDir("run")
         }
         server {
             server()
             setConfigName("Fabric Server")
             ideConfigGenerated(true)
-            runDir("run")
+            runDir("runServer")
+            programArg "--nogui=true"
+            programArg "--singleplayer=yes"
         }
     }
 }

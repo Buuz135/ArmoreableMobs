@@ -26,7 +26,7 @@ minecraft {
 
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory project.file('runClient')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Client'
             property 'mixin.env.remapRefMap', 'true'
@@ -40,11 +40,12 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('runServer')
             ideaModule "${rootProject.name}.${project.name}.main"
             taskName 'Server'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            args '--nogui', "true", '--singleplayer', "yeet"
             mods {
                 modServerRun {
                     source sourceSets.main
@@ -54,7 +55,7 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run')
+            workingDirectory project.file('runData')
             ideaModule "${rootProject.name}.${project.name}.main"
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             taskName 'Data'
@@ -76,6 +77,9 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":Common")
     implementation(fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.18.2:9.1.108"))
+    compileOnly fg.deobf("net.darkhax.gamestages:GameStages-Forge-1.18.2:8.0.2")
+    //runtimeOnly fg.deobf("net.darkhax.gamestages:GameStages-Forge-1.18.2:8.0.2")
+    //runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-1.18.2:13.2.26")
 }
 
 tasks.withType(JavaCompile) {

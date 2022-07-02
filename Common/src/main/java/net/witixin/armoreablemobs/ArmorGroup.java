@@ -180,7 +180,7 @@ public class ArmorGroup {
      * @docParam slot <constant:minecraft:equipmentslot:head>
      */
     @ZenCodeType.Method
-    public ItemStack getStackinSlot(EquipmentSlot slot){
+    public ItemStack getStackInSlot(EquipmentSlot slot){
         return slotItemStackMap.get(slot);
     }
 

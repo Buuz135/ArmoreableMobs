@@ -69,7 +69,7 @@ public class CommonClass {
     }
     private static void attachItems(ArmorGroup g, LivingEntity livingEntity){
         for (EquipmentSlot eqslt: g.getMap().keySet()){
-            final ItemStack stack = g.getStackinSlot(eqslt);
+            final ItemStack stack = g.getStackInSlot(eqslt);
             livingEntity.setItemSlot(eqslt, stack);
         }
     }

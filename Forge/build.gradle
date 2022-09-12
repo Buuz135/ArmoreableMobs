@@ -76,10 +76,8 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":Common")
-    implementation(fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.18.2:9.1.108"))
+    implementation(fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.18.2:${crafttweaker_version}"))
     compileOnly fg.deobf("net.darkhax.gamestages:GameStages-Forge-1.18.2:8.0.2")
-    //runtimeOnly fg.deobf("net.darkhax.gamestages:GameStages-Forge-1.18.2:8.0.2")
-    //runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-1.18.2:13.2.26")
 }
 
 tasks.withType(JavaCompile) {

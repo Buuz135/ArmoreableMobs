@@ -100,7 +100,7 @@ myArmorGroup.getName();
 
 :::
 
-:::group{name=getStackinSlot}
+:::group{name=getStackInSlot}
 
 Gets the ItemStack the group will give in a selected slot. Can be null. Would be the same as using [ArmorGroup](/mods/ArmoreableMobs/ArmorGroup)#getMap() and passing the [EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot) as a key.
 
@@ -108,9 +108,9 @@ Returns: The ItemStack at the selected location. Can be null.
 Return Type: [ItemStack](/vanilla/api/item/ItemStack)
 
 ```zenscript
-// ArmorGroup.getStackinSlot(slot as EquipmentSlot) as ItemStack
+// ArmorGroup.getStackInSlot(slot as EquipmentSlot) as ItemStack
 
-myArmorGroup.getStackinSlot(<constant:minecraft:equipmentslot:head>);
+myArmorGroup.getStackInSlot(<constant:minecraft:equipmentslot:head>);
 ```
 
 | Parameter | Type | Description |

@@ -30,16 +30,13 @@ public class CommonClass {
     public static ArmorGroup onSpawn(Entity fakeEntity, BiPredicate<LivingEntity, List<String>> predicate){
         if (fakeEntity instanceof LivingEntity entity){
             if (armorList.containsKey(entity.getType())){
-                ArmorGroup currentGroup = new ArmorGroup(entity.getArmorSlots().iterator(), entity.getItemBySlot(EquipmentSlot.MAINHAND), entity.getItemBySlot(EquipmentSlot.OFFHAND));
                 ArmorGroup selectedGroup = rollGroup(armorList.get(entity.getType()));
                 if (GameStagesHelper.delegatePredicate(entity, selectedGroup.getStages(), predicate) && PackModeHelper.playerPackmodeNearby(entity, selectedGroup.getPackmode())){
                     if (ArmorGroup.overrideArmorGroups.containsKey(entity.getType())){
                         ArmorGroup.overrideArmorGroups.get(entity.getType()).forEach((equipmentSlot, iItemStack) -> entity.setItemSlot(equipmentSlot, iItemStack.getInternal()));
                         return new ArmorGroup(ArmorGroup.overrideArmorGroups.get(entity.getType()).values().stream().map(IItemStack::getInternal).iterator());
                     }
-                    if (currentGroup.isEmpty()){
-                        attachItems(selectedGroup, entity);
-                    }
+                    attachItems(selectedGroup, entity);
                     if (entityBlockStateMapOverrides.containsKey(entity.getType()) && entityBlockStateMapOverrides.get(entity.getType()) != null && entity.getLevel().getBlockState(entity.blockPosition().below()).equals((entityBlockStateMapOverrides.get(entity.getType())))){
                         ArmorGroup g = new ArmorGroup(EntityType.getKey(entity.getType()) + entityBlockStateMapOverrides.get(entity.getType()).getBlock().toString());
                         blockstateArmorOverries.get(entity.getLevel().getBlockState(entity.blockPosition().below())).forEach(g::inSlot);
@@ -68,9 +65,12 @@ public class CommonClass {
         return group.get(position);
     }
     private static void attachItems(ArmorGroup g, LivingEntity livingEntity){
+        Map<EquipmentSlot, ItemStack> slotMap = new ArmorGroup(livingEntity.getArmorSlots().iterator(), livingEntity.getMainHandItem(), livingEntity.getOffhandItem()).getMap();
         for (EquipmentSlot eqslt: g.getMap().keySet()){
             final ItemStack stack = g.getStackInSlot(eqslt);
-            livingEntity.setItemSlot(eqslt, stack);
+            if (slotMap.get(eqslt).isEmpty()){
+                livingEntity.setItemSlot(eqslt, stack);
+            }
         }
     }
 

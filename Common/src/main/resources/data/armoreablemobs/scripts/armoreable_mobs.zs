@@ -1,5 +1,4 @@
-import mods.armoreablemods.ArmorGroup;
-
+import mods.armoreablemobs.ArmorGroup;
 
 //Adds an ArmorGroup for zombies to spawn with full iron armor
 new ArmorGroup("zombie_test_1")

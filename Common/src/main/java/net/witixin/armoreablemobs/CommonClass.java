@@ -24,11 +24,8 @@ public class CommonClass {
 
     public static void onSpawn(Entity fakeEntity){
 
-        System.out.println(armorList);
-
         if (fakeEntity instanceof LivingEntity entity){
             if (armorList.containsKey(entity.getType())){
-                System.out.println(armorList.get(entity.getType()).get(0).getMap());
                 ArmorGroup currentGroup = new ArmorGroup(entity.getArmorSlots().iterator(), entity.getItemBySlot(EquipmentSlot.MAINHAND), entity.getItemBySlot(EquipmentSlot.OFFHAND));
                 ArmorGroup selectedGroup = rollGroup(armorList.get(entity.getType()));
                 if (GameStagesHelper.entityPlayerStageNearby(entity, selectedGroup.getStages()) && PackModeHelper.playerPackmodeNearby(entity, selectedGroup.getPackmode())){

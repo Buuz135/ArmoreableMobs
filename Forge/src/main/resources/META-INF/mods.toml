@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[40,)"
+loaderVersion="[43,)"
 modId= "armoreablemobs"
 license="MIT"
 [[mods]]
@@ -14,18 +14,18 @@ A mod that allows you to give any item to any entity when it spawns using CraftT
 [[dependencies.armoreablemobs]]
     modId="forge"
     mandatory=true #mandatory
-    versionRange="[40,)"
+    versionRange="[43.1,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.armoreablemobs]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2, 1.19)"
+    versionRange="[1.19.2,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.armoreablemobs]]
     modId = "crafttweaker"
     mandatory = true
-    versionRange="[9.1.,]"
+    versionRange="[10.0.9,]"
     ordering="NONE"
     side="BOTH"

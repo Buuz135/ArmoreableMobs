@@ -14,19 +14,17 @@ import mods.armoreablemobs.ArmorGroup;
 
 A powerful method to override the armor of a mob depending on which block they are standing on.
 
-Return Type: void
-
 ```zenscript
-// ArmorGroup.overrideExistingArmor(type as EntityType, map as IItemStack[EquipmentSlot], state as BlockState) as void
+// ArmorGroup.overrideExistingArmor(type as EntityType, map as IItemStack[EquipmentSlot], state as BlockState)
 
 ArmorGroup.overrideExistingArmor(<entitytype:minecraft:zombie>, {<constant:minecraft:equipmentslot:chest> : <item:minecraft:netherite_chestplate>, <constant:minecraft:equipmentslot:mainhand> : <item:minecraft:netherite_sword>}, <blockstate:minecraft:sand>);
 ```
 
-| Parameter | Type | Description | Optional | DefaultValue |
-|-----------|------|-------------|----------|--------------|
-| type | [EntityType](/vanilla/api/entity/EntityType) | The [EntityType](/vanilla/api/entity/EntityType)&lt;T&gt; to Override | false |  |
-| map | [IItemStack](/vanilla/api/item/IItemStack)[[EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot)] | The Associative Array, as `EquipmentSlot[IItemStack]` that will be used as the entities armor. If an [EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot) is empty, it won't override what's there. | false |  |
-| state | [BlockState](/vanilla/api/block/BlockState) | The BlockState to override the armor if the aforementioned [EntityType](/vanilla/api/entity/EntityType)&lt;T&gt; spawns on top of. | true |  |
+| Parameter |                                                   Type                                                   |                                                                                                 Description                                                                                                 | Optional |
+|-----------|----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| type      | [EntityType](/vanilla/api/entity/EntityType)                                                             | The [EntityType](/vanilla/api/entity/EntityType)&lt;T&gt; to Override                                                                                                                                       | false    |
+| map       | [IItemStack](/vanilla/api/item/IItemStack)[[EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot)] | The Associative Array, as `EquipmentSlot[IItemStack]` that will be used as the entities armor. If an [EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot) is empty, it won't override what's there. | false    |
+| state     | [BlockState](/vanilla/api/block/BlockState)                                                              | The BlockState to override the armor if the aforementioned [EntityType](/vanilla/api/entity/EntityType)&lt;T&gt; spawns on top of.                                                                          | true     |
 
 
 :::
@@ -37,17 +35,17 @@ ArmorGroup.overrideExistingArmor(<entitytype:minecraft:zombie>, {<constant:minec
 ```zenscript
 new ArmorGroup(name as string) as ArmorGroup
 ```
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| name | string | The display name of the group to create. |
+| Parameter |  Type  |               Description                |
+|-----------|--------|------------------------------------------|
+| name      | string | The display name of the group to create. |
 
 
 
 ## Casters
 
-| Result type | Is Implicit |
+| Result Type | Is Implicit |
 |-------------|-------------|
-| string | true |
+| string      | true        |
 
 ## Methods
 
@@ -94,9 +92,9 @@ Return Type: [ItemStack](/vanilla/api/item/ItemStack)
 myArmorGroup.getStackinSlot(<constant:minecraft:equipmentslot:head>);
 ```
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| slot | [EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot) | No Description Provided |
+| Parameter |                             Type                             |
+|-----------|--------------------------------------------------------------|
+| slot      | [EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot) |
 
 
 :::
@@ -129,10 +127,10 @@ Return Type: [ArmorGroup](/mods/ArmoreableMobs/ArmorGroup)
 myArmorGroup.inSlot(<constant:minecraft:equipmentslot:feet>, <item:minecraft:iron_boots>);
 ```
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| slot | [EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot) | The slot at which the ItemStack will be placed |
-| stack | [IItemStack](/vanilla/api/item/IItemStack) | The [IItemStack](/vanilla/api/item/IItemStack) to give to the Entity. |
+| Parameter |                             Type                             |                              Description                              |
+|-----------|--------------------------------------------------------------|-----------------------------------------------------------------------|
+| slot      | [EquipmentSlot](/vanilla/api/entity/equipment/EquipmentSlot) | The slot at which the ItemStack will be placed                        |
+| stack     | [IItemStack](/vanilla/api/item/IItemStack)                   | The [IItemStack](/vanilla/api/item/IItemStack) to give to the Entity. |
 
 
 :::
@@ -141,17 +139,15 @@ myArmorGroup.inSlot(<constant:minecraft:equipmentslot:feet>, <item:minecraft:iro
 
 Registers the ArmorGroup.
 
-Return Type: void
-
 ```zenscript
-// ArmorGroup.register(type as EntityType) as void
+// ArmorGroup.register(type as EntityType)
 
 myArmorGroup.register(<entitytype:minecraft:zombie>);
 ```
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| type | [EntityType](/vanilla/api/entity/EntityType) | The entity at which the ArmorGroup will be applied on spawn. |
+| Parameter |                     Type                     |                         Description                          |
+|-----------|----------------------------------------------|--------------------------------------------------------------|
+| type      | [EntityType](/vanilla/api/entity/EntityType) | The entity at which the ArmorGroup will be applied on spawn. |
 
 
 :::
@@ -169,9 +165,9 @@ Return Type: [ArmorGroup](/mods/ArmoreableMobs/ArmorGroup)
 myArmorGroup.setWeight(3.0);
 ```
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| weight | double | The weight at which the ArmorGroup will spawn on the entity type. |
+| Parameter |  Type  |                            Description                            |
+|-----------|--------|-------------------------------------------------------------------|
+| weight    | double | The weight at which the ArmorGroup will spawn on the entity type. |
 
 
 :::

@@ -14,7 +14,7 @@ public class Reference {
     }
 
     public void doSpawn(final LivingSpawnEvent.SpecialSpawn event){
-        CommonClass.onSpawn(event.getEntityLiving());
+        CommonClass.onSpawn(event.getEntity());
     }
 
     public void reloadListener(final AddReloadListenerEvent event){

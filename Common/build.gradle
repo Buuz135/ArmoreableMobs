@@ -30,8 +30,8 @@ repositories {
 dependencies {
      compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
      implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
-    compileOnly('com.blamejared.crafttweaker:CraftTweaker-common-1.18.2:9.1.108')
-    annotationProcessor("com.blamejared.crafttweaker:Crafttweaker_Annotation_Processors-${minecraft_version}:${crafttweaker_ap_version}")
+    compileOnly("com.blamejared.crafttweaker:CraftTweaker-common-${minecraft_version}:${crafttweaker_version}")
+    annotationProcessor("com.blamejared.crafttweaker:Crafttweaker_Annotation_Processors:${crafttweaker_ap_version}")
     annotationProcessor("com.blamejared.crafttweaker:CraftTweaker-common-${minecraft_version}:${crafttweaker_version}")
 }
 

@@ -6,6 +6,12 @@ plugins {
 
 archivesBaseName = "${mod_name}-fabric-${minecraft_version}"
 
+repositories {
+    maven {
+        url "https://maven.shedaniel.me/"
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings loom.officialMojangMappings()
@@ -13,7 +19,12 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":Common")
-    modImplementation("com.blamejared.crafttweaker:CraftTweaker-fabric-1.18.2:9.1.108")
+    modImplementation("com.blamejared.crafttweaker:CraftTweaker-fabric-${minecraft_version}:${crafttweaker_version}")
+
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${REI}")
+    modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${REI}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${REI}")
+    modRuntimeOnly("dev.architectury:architectury-fabric:6.0.37")
 }
 
 loom {

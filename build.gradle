@@ -1,3 +1,5 @@
+import java.nio.charset.StandardCharsets
+
 subprojects {
     
     apply plugin: 'java'
@@ -47,6 +49,9 @@ subprojects {
         it.options.compilerArgs.add("-Acrafttweaker.processor.document.multi_source=true")
     }
 
+    tasks.withType(Javadoc).configureEach(){
+        it.enabled(false)
+    }
 
     // Disables Gradle's custom module metadata from being published to maven. The
     // metadata includes mapped dependencies which are not reasonably consumable by

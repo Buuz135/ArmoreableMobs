@@ -20,11 +20,6 @@ dependencies {
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":Common")
     modImplementation("com.blamejared.crafttweaker:CraftTweaker-fabric-${minecraft_version}:${crafttweaker_version}")
-
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${REI}")
-    modLocalRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${REI}")
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${REI}")
-    modRuntimeOnly("dev.architectury:architectury-fabric:6.0.37")
 }
 
 loom {

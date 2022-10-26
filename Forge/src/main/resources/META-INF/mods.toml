@@ -26,6 +26,6 @@ A mod that allows you to give any item to any entity when it spawns using CraftT
 [[dependencies.armoreablemobs]]
     modId = "crafttweaker"
     mandatory = true
-    versionRange="[10.0.9,]"
+    versionRange="[10.0.14,]"
     ordering="NONE"
     side="BOTH"

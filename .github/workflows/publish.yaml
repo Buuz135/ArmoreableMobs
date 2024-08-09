@@ -24,7 +24,7 @@ jobs:
       - name: build
         run: ./gradlew build
       - name: Publish Minecraft Mods Forge
-        uses: Kir-Antipov/mc-publish@v2.1
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-id: 281316
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
@@ -37,7 +37,7 @@ jobs:
           name: ""
           changelog: "https://github.com/Buuz135/ArmoreableMobs/commits/1.20"
       - name: Publish Minecraft Mods Fabric
-        uses: Kir-Antipov/mc-publish@v2.1
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-id: 281316
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}

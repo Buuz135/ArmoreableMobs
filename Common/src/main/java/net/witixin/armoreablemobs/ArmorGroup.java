@@ -4,10 +4,13 @@ import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.annotation.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.blamejared.crafttweaker_annotations.annotations.Document;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.witixin.armoreablemobs.actions.AddArmorGroupAction;
+import net.witixin.armoreablemobs.actions.AddBlockOverrideAction;
 import org.openzen.zencode.java.ZenCodeType;
 
 import java.util.*;
@@ -17,28 +20,26 @@ import java.util.*;
 @Document("mods/ArmoreableMobs/ArmorGroup")
 public class ArmorGroup {
 
-    private String name;
     private final Map<EquipmentSlot, ItemStack> slotItemStackMap = new HashMap<>();
+    private String name;
     private List<String> stageList;
     private double weight;
     private String packmode;
-
-    public static List<EntityType> overrideArmorGroups = new ArrayList<>();
 
     /**
      *
      * @param name The display name of the group to create.
      *
      */
-
     @ZenCodeType.Constructor
-    public ArmorGroup(String name){
+    public ArmorGroup(String name) {
         this.name = name;
         stageList = new ArrayList<>();
         packmode = "";
         weight = 1.0;
     }
-    public ArmorGroup(Iterator<ItemStack> iterator, ItemStack mainhand, ItemStack offhand){
+
+    public ArmorGroup(Iterator<ItemStack> iterator, ItemStack mainhand, ItemStack offhand) {
         slotItemStackMap.put(EquipmentSlot.HEAD, iterator.next());
         slotItemStackMap.put(EquipmentSlot.CHEST, iterator.next());
         slotItemStackMap.put(EquipmentSlot.LEGS, iterator.next());
@@ -49,17 +50,21 @@ public class ArmorGroup {
     }
 
     /**
-     * Sets the weight at which the armor group can spawn. The chance a group has to spawn on an entity is determined using a pseudo random number and the total weight of ArmorGroups that entity can have.
+     * A powerful method to override the armor of a mob depending on which block they are standing on.
      *
-     * @param weight The weight at which the ArmorGroup will spawn on the entity type.
-     * @return The ArmorGroup that has been modified.
+     * @param type The {@link EntityType} to Override
+     * @param map The Associative Array, as `EquipmentSlot[IItemStack]` that will be used as the entities armor. If an
+     * {@link EquipmentSlot} is empty, it won't override what's there.
+     * @param state The BlockState to override the armor if the aforementioned {@link EntityType} spawns on top of.
      *
-     * @docParam weight 3.0
+     * @docParam type <entitytype:minecraft:zombie>
+     * @docParam map {<constant:minecraft:equipmentslot:chest> : <item:minecraft:netherite_chestplate>,
+     * <constant:minecraft:equipmentslot:mainhand> : <item:minecraft:netherite_sword>}
+     * @docParam state <blockstate:minecraft:sand>
      */
     @ZenCodeType.Method
-    public ArmorGroup setWeight(double weight){
-        this.weight = weight;
-        return this;
+    public static void overrideExistingArmor(EntityType<Entity> type, Map<EquipmentSlot, IItemStack> map, BlockState state) {
+        CraftTweakerAPI.apply(new AddBlockOverrideAction(type, state, map));
     }
 
     /**
@@ -74,7 +79,7 @@ public class ArmorGroup {
      * @return The ArmorGroup that has been modified.
      */
     @ZenCodeType.Method
-    public ArmorGroup inSlot(EquipmentSlot slot, IItemStack stack){
+    public ArmorGroup inSlot(EquipmentSlot slot, IItemStack stack) {
         slotItemStackMap.put(slot, stack.getInternal());
         return this;
     }
@@ -88,9 +93,8 @@ public class ArmorGroup {
      */
 
     @ZenCodeType.Method
-    public void register(EntityType type){
-        CommonClass.armorList.put(type, Utilities.mergeOrMakeList(CommonClass.armorList.get(type), this));
-        CraftTweakerAPI.LOGGER.info("Registered new ArmorGroup for entity: " + EntityType.getKey(type).toString() + " under the name: " + this.getName());
+    public void register(EntityType<Entity> type) {
+        CraftTweakerAPI.apply(new AddArmorGroupAction(type, this));
     }
 
     /**
@@ -98,22 +102,71 @@ public class ArmorGroup {
      * @return The internal map as `EquipmentSlot[IItemStack]`
      */
     @ZenCodeType.Method
-    public Map<EquipmentSlot, ItemStack> getMap(){
+    public Map<EquipmentSlot, ItemStack> getEquipment() {
         return this.slotItemStackMap;
     }
-    /*
-    These are discontinued as GameStages and Packmode aren't on 1.18 YET
-     */
 
     //@ZenCodeType.Method
-    public List<String> getStages(){
+    public List<String> getStages() {
         return this.stageList;
     }
 
     //@ZenCodeType.Method
-    public String getPackmode(){
+    public String getPackmode() {
         return this.packmode;
     }
+
+    /**
+     * Gets the weight of the ArmorGroup
+     * @return The weight of the group as a double.
+     */
+    @ZenCodeType.Method
+    public double getWeight() {
+        return this.weight;
+    }
+
+    /**
+     * Sets the weight at which the armor group can spawn. The chance a group has to spawn on an entity is determined using a pseudo
+     * random number and the total weight of ArmorGroups that entity can have.
+     *
+     * @param weight The weight at which the ArmorGroup will spawn on the entity type.
+     * @return The ArmorGroup that has been modified.
+     *
+     * @docParam weight 3.0
+     */
+    @ZenCodeType.Method
+    public ArmorGroup setWeight(double weight) {
+        this.weight = weight;
+        return this;
+    }
+
+    /**
+     * Gets the name of the ArmorGroup
+     * @return The name of the group as a string.
+     */
+    @ZenCodeType.Method
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Gets the ItemStack the group will give in a selected slot. Can be null. Would be the same as using
+     * {@link ArmorGroup#getEquipment()} and passing the {@link EquipmentSlot} as a key.
+     * @return The ItemStack at the selected location. Can be null.
+     *
+     * @docParam slot <constant:minecraft:equipmentslot:head>
+     */
+    @ZenCodeType.Method
+    public ItemStack getStackinSlot(EquipmentSlot slot) {
+        return slotItemStackMap.get(slot);
+    }
+
+    @ZenCodeType.Caster(implicit = true)
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     /*
     @ZenCodeType.Method
     public void setPackmode(String packmode){
@@ -129,63 +182,6 @@ public class ArmorGroup {
     }
     */
 
-
-    /**
-     * Gets the weight of the ArmorGroup
-     * @return The weight of the group as a double.
-     */
-    @ZenCodeType.Method
-    public double getWeight(){return this.weight;}
-
-    /**
-     * Gets the name of the ArmorGroup
-     * @return The name of the group as a string.
-     */
-    @ZenCodeType.Method
-    public String getName(){
-        return this.name;
-    }
-    /**
-     * Gets the ItemStack the group will give in a selected slot. Can be null. Would be the same as using {@link ArmorGroup#getMap()} and passing the {@link EquipmentSlot} as a key.
-     * @return The ItemStack at the selected location. Can be null.
-     *
-     * @docParam slot <constant:minecraft:equipmentslot:head>
-     */
-    @ZenCodeType.Method
-    public ItemStack getStackinSlot(EquipmentSlot slot){
-        return slotItemStackMap.get(slot);
-    }
-
-    @ZenCodeType.Caster(implicit = true)
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
-    /**
-     * A powerful method to override the armor of a mob depending on which block they are standing on.
-     *
-     * @param type The {@link EntityType} to Override
-     * @param map The Associative Array, as `EquipmentSlot[IItemStack]` that will be used as the entities armor. If an {@link EquipmentSlot} is empty, it won't override what's there.
-     * @param state The BlockState to override the armor if the aforementioned {@link EntityType} spawns on top of.
-     *
-     * @docParam type <entitytype:minecraft:zombie>
-     * @docParam map {<constant:minecraft:equipmentslot:chest> : <item:minecraft:netherite_chestplate>, <constant:minecraft:equipmentslot:mainhand> : <item:minecraft:netherite_sword>}
-     * @docParam state <blockstate:minecraft:sand>
-     */
-    @ZenCodeType.Method
-    public static void overrideExistingArmor(EntityType type, Map<EquipmentSlot, IItemStack> map, @ZenCodeType.Optional BlockState state){
-        if (state == null) {
-            overrideArmorGroups.add(type);
-        } else {
-            addBlockOverrides(type, state, map);
-        }
-    }
-    private static void addBlockOverrides(EntityType type, BlockState state, Map<EquipmentSlot, IItemStack> map){
-        CommonClass.entityBlockStateMapOverrides.put(type, state);
-        CommonClass.blockstateArmorOverries.put(state, map);
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -194,16 +190,14 @@ public class ArmorGroup {
 
         if (obj.getClass() != this.getClass()) {
             return false;
-        };
+        }
+
         ArmorGroup ag = (ArmorGroup) obj;
         return this.slotItemStackMap.equals(ag.slotItemStackMap);
     }
-    public boolean isEmpty(){
-        for (ItemStack stack : this.slotItemStackMap.values()){
-            if (stack != ItemStack.EMPTY){
-                return false;
-            }
-        }
-        return true;
+
+    @Override
+    public int hashCode() {
+        return slotItemStackMap.hashCode();
     }
 }

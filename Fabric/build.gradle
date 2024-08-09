@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
     id 'idea'
 }
@@ -36,6 +36,9 @@ loom {
             ideConfigGenerated(true)
             runDir("run")
         }
+    }
+    mixin {
+        setDefaultRefmapName("armoreablemobs.refmap.json")
     }
 }
 

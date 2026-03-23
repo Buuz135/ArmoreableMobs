@@ -26,7 +26,7 @@ public class AddArmorGroupAction implements IUndoableAction {
 
     @Override
     public String describe() {
-        return String.format("Adding an ArmorGroup for entity: {} under the name: ", Utilities.toCraftTweakerBEP(entityType),
+        return String.format("Adding an ArmorGroup for entity: %s under the name: \"%s\"", Utilities.toCraftTweakerBEP(entityType),
                 group.getName());
     }
 

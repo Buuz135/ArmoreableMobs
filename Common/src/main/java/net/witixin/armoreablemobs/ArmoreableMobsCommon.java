@@ -4,10 +4,7 @@ import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -21,23 +18,21 @@ public class ArmoreableMobsCommon {
     public static final String MOD_ID = "armoreablemobs";
     public static final String MOD_NAME = "ArmoreableMobs";
 
-    public static Map<EntityType, List<ArmorGroup>> armorList = new HashMap<>();
-    public static Map<EntityType, BlockState> entityBlockStateMapOverrides = new HashMap<>();
+    public static Map<EntityType<?>, List<ArmorGroup>> armorList = new HashMap<>();
+    public static Map<EntityType<?>, BlockState> entityBlockStateMapOverrides = new HashMap<>();
     public static Map<BlockState, Map<EquipmentSlot, IItemStack>> blockstateArmorOverries = new HashMap<>();
 
-    public static void onSpawn(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity) {
-            if (armorList.containsKey(livingEntity.getType())) {
-                ArmorGroup selectedGroup = rollGroup(armorList.get(livingEntity.getType()));
-                if (GameStagesHelper.entityPlayerStageNearby(livingEntity, selectedGroup.getStages()) && PackModeHelper.playerPackmodeNearby(livingEntity, selectedGroup.getPackmode())) {
-                    if (entityBlockStateMapOverrides.containsKey(livingEntity.getType()) && entityBlockStateMapOverrides.get(livingEntity.getType()) != null && livingEntity.level().getBlockState(livingEntity.blockPosition().below()).equals((entityBlockStateMapOverrides.get(livingEntity.getType())))) {
-                        ArmorGroup g =
-                                new ArmorGroup(EntityType.getKey(livingEntity.getType()) + entityBlockStateMapOverrides.get(livingEntity.getType()).getBlock().toString());
-                        blockstateArmorOverries.get(livingEntity.level().getBlockState(livingEntity.blockPosition().below())).forEach(g::inSlot);
-                        attachItems(g, livingEntity);
-                    } else {
-                        attachItems(selectedGroup, livingEntity);
-                    }
+    public static void onSpawn(Mob livingEntity) {
+        if (armorList.containsKey(livingEntity.getType())) {
+            ArmorGroup selectedGroup = rollGroup(armorList.get(livingEntity.getType()));
+            if (GameStagesHelper.entityPlayerStageNearby(livingEntity, selectedGroup.getStages()) && PackModeHelper.playerPackmodeNearby(livingEntity, selectedGroup.getPackmode())) {
+                if (entityBlockStateMapOverrides.containsKey(livingEntity.getType()) && entityBlockStateMapOverrides.get(livingEntity.getType()) != null && livingEntity.level().getBlockState(livingEntity.blockPosition().below()).equals((entityBlockStateMapOverrides.get(livingEntity.getType())))) {
+                    ArmorGroup g =
+                            new ArmorGroup(EntityType.getKey(livingEntity.getType()) + entityBlockStateMapOverrides.get(livingEntity.getType()).getBlock().toString());
+                    blockstateArmorOverries.get(livingEntity.level().getBlockState(livingEntity.blockPosition().below())).forEach(g::inSlot);
+                    attachItems(g, livingEntity);
+                } else {
+                    attachItems(selectedGroup, livingEntity);
                 }
             }
         }

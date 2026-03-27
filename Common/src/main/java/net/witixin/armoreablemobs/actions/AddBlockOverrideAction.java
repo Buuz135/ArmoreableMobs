@@ -9,16 +9,17 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.block.state.BlockState;
 import net.witixin.armoreablemobs.ArmoreableMobsCommon;
 import net.witixin.armoreablemobs.Utilities;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
 public class AddBlockOverrideAction implements IUndoableAction {
 
     private final EntityType<Entity> entityType;
-    private final BlockState state;
+    private final @Nullable BlockState state;
     private final Map<EquipmentSlot, IItemStack> equipment;
 
-    public AddBlockOverrideAction(EntityType<Entity> entityType, BlockState state, Map<EquipmentSlot, IItemStack> equipment) {
+    public AddBlockOverrideAction(EntityType<Entity> entityType, @Nullable BlockState state, Map<EquipmentSlot, IItemStack> equipment) {
         this.entityType = entityType;
         this.state = state;
         this.equipment = equipment;
@@ -32,6 +33,9 @@ public class AddBlockOverrideAction implements IUndoableAction {
 
     @Override
     public String describe() {
+        if (state == null) {
+            return String.format("Adding override for entity: %s", Utilities.toCraftTweakerBEP(entityType));
+        }
         return String.format("Adding Block spawning override for entity: %s, when standing on block: %s",
                 Utilities.toCraftTweakerBEP(entityType), ExpandBlockState.getCommandString(state));
     }

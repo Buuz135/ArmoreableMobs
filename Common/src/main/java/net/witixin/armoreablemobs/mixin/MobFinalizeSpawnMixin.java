@@ -1,31 +1,26 @@
 package net.witixin.armoreablemobs.mixin;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.witixin.armoreablemobs.ArmoreableMobsCommon;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.function.Consumer;
 
-@Mixin(EntityType.class)
+@Mixin(Mob.class)
 public class MobFinalizeSpawnMixin {
 
-    @Inject(method = "Lnet/minecraft/world/entity/EntityType;spawn(Lnet/minecraft/server/level/ServerLevel;" + "Lnet/minecraft/nbt" +
-            "/CompoundTag;Ljava/util/function/Consumer;Lnet/minecraft/core/BlockPos;" + "Lnet/minecraft/world/entity/MobSpawnType;ZZ)" +
-            "Lnet/minecraft/world/entity/Entity;", at = @At(value = "TAIL", target = "Lnet/minecraft/server/level/ServerLevel;" +
-            "addFreshEntityWithPassengers" + "(Lnet/minecraft/world/entity/Entity;)V"))
-    private void armoreableMobs$inject(ServerLevel level, CompoundTag tag, Consumer<Entity> consumer, BlockPos pos, MobSpawnType type,
-                                       boolean b1, boolean b2, CallbackInfoReturnable<Entity> callbackInfo) {
-        if (callbackInfo.getReturnValue() instanceof LivingEntity livingEntity) {
-            ArmoreableMobsCommon.onSpawn(livingEntity);
-        }
+    @Inject(method = "Lnet/minecraft/world/entity/Mob;finalizeSpawn(Lnet/minecraft/world/level/ServerLevelAccessor;" +
+            "Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/MobSpawnType;Lnet/minecraft/world/entity/SpawnGroupData;" +
+            "Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/world/entity/SpawnGroupData;",
+            at = @At(value = "RETURN"))
+    private void armoreableMobs$inject(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyInstance, MobSpawnType spawnType,
+                                       SpawnGroupData spawnGroupData, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> callbackInfoReturnable) {
+        Mob livingEntity = (Mob)((Object)this);
+        ArmoreableMobsCommon.onSpawn(livingEntity);
     }
 }

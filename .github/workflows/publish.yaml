@@ -14,25 +14,25 @@ jobs:
         uses: actions/checkout@v2
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: setup jdk 17
+      - name: setup jdk 21
         uses: actions/setup-java@v1
         with:
-          java-version: "17"
+          java-version: "21"
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
-      - name: Publish Minecraft Mods Forge
+      - name: Publish Minecraft Mods Neoforge
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-id: 281316
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           files: |
-            Forge/build/libs/!(*-@(dev|sources|javadoc)).jar
-            Forge/build/libs/*-@(dev|sources|javadoc).jar
+            neoforge/build/libs/!(*-@(dev|sources|javadoc)).jar
+            neoforge/build/libs/*-@(dev|sources|javadoc).jar
           version-type: release
-          loaders: forge
+          loaders: neoforge
           game-versions: 1.21.1
           java: 21
           name: ""
@@ -43,8 +43,8 @@ jobs:
           curseforge-id: 281316
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
           files: |
-            Fabric/build/libs/!(*-@(dev|sources|javadoc)).jar
-            Fabric/build/libs/*-@(dev|sources|javadoc).jar
+            fabric/build/libs/!(*-@(dev|sources|javadoc)).jar
+            fabric/build/libs/*-@(dev|sources|javadoc).jar
           version-type: release
           loaders: fabric
           game-versions: 1.21.1

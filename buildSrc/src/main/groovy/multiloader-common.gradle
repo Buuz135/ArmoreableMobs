@@ -57,6 +57,11 @@ repositories {
     }
 }
 
+javadoc {
+    options.tags = [ "docParam" ]
+    (options as StandardJavadocDocletOptions).addBooleanOption("Xdoclint:none", true)
+}
+
 sourcesJar {
     from(rootProject.file('LICENSE')) {
         rename { "${it}_${mod_name}" }
